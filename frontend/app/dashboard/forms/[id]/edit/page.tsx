@@ -144,8 +144,8 @@ export default function BuilderPage() {
   };
 
   if (loading || !form) return (
-    <div className="h-screen flex flex-col bg-white">
-       <header className="h-14 bg-white border-b border-gray-200 px-6 flex items-center justify-between shrink-0"></header>
+    <div className="h-screen flex flex-col bg-card-bg">
+       <header className="h-14 bg-card-bg border-b border-border-soft px-6 flex items-center justify-between shrink-0"></header>
        <div className="flex-1 flex items-center justify-center">
          <div className="w-8 h-8 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
        </div>
@@ -157,9 +157,9 @@ export default function BuilderPage() {
   return (
     <div className="h-[calc(100vh-64px)] flex flex-col bg-[#F9FAFB] overflow-hidden -mt-8 -mx-4 sm:-mx-6 lg:-mx-8">
       {/* Builder Header */}
-      <header className="h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between shrink-0 z-10 shadow-sm">
+      <header className="h-16 bg-card-bg border-b border-border-soft px-6 flex items-center justify-between shrink-0 z-10 shadow-sm">
         <div className="flex items-center gap-4">
-          <Link href="/dashboard" className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500 transition-colors">
+          <Link href="/dashboard" className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-purple-light text-text-secondary transition-colors">
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <div className="h-4 w-px bg-gray-300 hidden sm:block"></div>
@@ -172,22 +172,22 @@ export default function BuilderPage() {
             onBlur={(e) => {
               formsApi.updateForm(form.id, { title: e.target.value });
             }}
-            className="font-semibold text-gray-900 bg-transparent border-none focus:ring-2 focus:ring-indigo-100 focus:outline-none placeholder-gray-400 rounded px-2 py-1 transition-all"
+            className="font-semibold text-ink-dark bg-transparent border-none focus:ring-2 focus:ring-indigo-100 focus:outline-none placeholder-gray-400 rounded px-2 py-1 transition-all"
             placeholder="Form Title"
           />
         </div>
         
         <div className="flex items-center gap-3">
-          <div className="hidden md:flex bg-gray-100 p-1 rounded-lg">
+          <div className="hidden md:flex bg-purple-light p-1 rounded-lg">
             <button 
               onClick={() => setPreviewMode('desktop')}
-              className={`p-1.5 rounded-md transition-colors ${previewMode === 'desktop' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}
+              className={`p-1.5 rounded-md transition-colors ${previewMode === 'desktop' ? 'bg-card-bg shadow-sm text-ink-dark' : 'text-text-secondary hover:text-text-secondary'}`}
             >
               <Monitor className="w-4 h-4" />
             </button>
             <button 
               onClick={() => setPreviewMode('mobile')}
-              className={`p-1.5 rounded-md transition-colors ${previewMode === 'mobile' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}
+              className={`p-1.5 rounded-md transition-colors ${previewMode === 'mobile' ? 'bg-card-bg shadow-sm text-ink-dark' : 'text-text-secondary hover:text-text-secondary'}`}
             >
               <Smartphone className="w-4 h-4" />
             </button>
@@ -201,7 +201,7 @@ export default function BuilderPage() {
                 navigator.clipboard.writeText(`${window.location.origin}/form/${form.public_slug}`);
                 toast.success('Link copied to clipboard!');
               }}
-              className="text-sm font-medium text-gray-700 hover:text-gray-900 flex items-center gap-1.5 bg-gray-100 px-3 py-2 rounded-lg transition-colors border border-gray-200"
+              className="text-sm font-medium text-text-secondary hover:text-ink-dark flex items-center gap-1.5 bg-purple-light px-3 py-2 rounded-lg transition-colors border border-border-soft"
             >
               <Globe className="w-4 h-4" /> Share
             </button>
@@ -211,8 +211,8 @@ export default function BuilderPage() {
             disabled={saving}
             className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 shadow-sm ${
               form.status === 'published' 
-                ? 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50' 
-                : 'bg-gray-900 text-white hover:bg-gray-800'
+                ? 'bg-card-bg border border-border-soft text-text-secondary hover:bg-gray-50' 
+                : 'bg-ink-dark text-white hover:opacity-90'
             }`}
           >
             {form.status === 'published' ? 'Unpublish' : 'Publish'}

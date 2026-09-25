@@ -196,7 +196,7 @@ export default function Dashboard() {
                     </span>
                     <span className="text-sm text-gray-500 font-medium flex items-center gap-1.5">
                       <div className="w-1.5 h-1.5 rounded-full bg-gray-300"></div>
-                      {form.responses_count} responses
+                      {form.responses_count} {form.responses_count === 1 ? 'response' : 'responses'}
                     </span>
                   </div>
                 </Link>

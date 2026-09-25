@@ -131,48 +131,48 @@ export default function PublicFormPage() {
   };
 
   if (loading) return (
-    <div className="h-screen bg-[#FBFBFA] flex items-center justify-center">
-      <div className="w-8 h-8 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+    <div className="h-screen bg-page-bg flex items-center justify-center">
+      <div className="w-8 h-8 border-4 border-purple-lavender border-t-indigo-600 rounded-full animate-spin"></div>
     </div>
   );
   
   if (error || !form) return (
-    <div className="h-screen bg-[#FBFBFA] flex items-center justify-center p-6 text-center">
+    <div className="h-screen bg-page-bg flex items-center justify-center p-6 text-center">
       <div className="max-w-md w-full">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Oops!</h1>
-        <p className="text-gray-600">{error || 'Something went wrong.'}</p>
+        <h1 className="text-2xl font-bold text-ink-dark mb-2">Oops!</h1>
+        <p className="text-text-secondary">{error || 'Something went wrong.'}</p>
       </div>
     </div>
   );
 
   if (form.questions.length === 0) return (
-    <div className="h-screen bg-[#FBFBFA] flex items-center justify-center text-gray-500">
+    <div className="h-screen bg-page-bg flex items-center justify-center text-text-secondary/80">
       This form has no questions yet.
     </div>
   );
 
   if (submitted) return (
-    <div className="h-screen bg-[#FBFBFA] flex flex-col items-center justify-center p-6 text-center">
+    <div className="h-screen bg-page-bg flex flex-col items-center justify-center p-6 text-center">
       <motion.div 
         initial={{ opacity: 0, scale: 0.8, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ type: 'spring', damping: 20, stiffness: 100 }}
         className="max-w-md w-full"
       >
-        <div className="w-20 h-20 bg-indigo-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-xl">
+        <div className="w-20 h-20 bg-primary text-white rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-xl">
           <Check className="w-10 h-10" />
         </div>
-        <h1 className="text-4xl font-bold text-gray-900 mb-4 tracking-tight">Thank you! 🎉</h1>
-        <p className="text-xl text-gray-600 mb-12">Your response has been submitted successfully.</p>
+        <h1 className="text-4xl font-bold text-ink-dark mb-4 tracking-tight">Thank you! 🎉</h1>
+        <p className="text-xl text-text-secondary mb-12">Your response has been submitted successfully.</p>
         
-        <div className="inline-flex items-center justify-center gap-2 text-sm font-medium text-gray-400 bg-gray-100 px-4 py-2 rounded-full">
+        <div className="inline-flex items-center justify-center gap-2 text-sm font-medium text-text-secondary/60 bg-border-soft px-4 py-2 rounded-full">
           Powered by 
-          <span className="text-gray-900 flex items-center gap-1">
+          <span className="text-ink-dark flex items-center gap-1">
             <div className="grid grid-cols-2 gap-0.5 w-3 h-3">
-              <div className="bg-gray-900 rounded-[1px]"></div>
-              <div className="bg-gray-900 rounded-[1px] opacity-70"></div>
-              <div className="bg-gray-900 rounded-[1px] opacity-40"></div>
-              <div className="bg-gray-900 rounded-[1px] opacity-90"></div>
+              <div className="bg-ink-dark rounded-[1px]"></div>
+              <div className="bg-ink-dark rounded-[1px] opacity-70"></div>
+              <div className="bg-ink-dark rounded-[1px] opacity-40"></div>
+              <div className="bg-ink-dark rounded-[1px] opacity-90"></div>
             </div>
             FormFlow
           </span>
@@ -205,11 +205,11 @@ export default function PublicFormPage() {
   };
 
   return (
-    <div className="h-screen bg-[#FBFBFA] flex flex-col font-sans overflow-hidden">
+    <div className="h-screen bg-page-bg flex flex-col font-sans overflow-hidden">
       {/* Progress Bar */}
-      <div className="h-1.5 w-full bg-gray-100 fixed top-0 z-50">
+      <div className="h-1.5 w-full bg-border-soft fixed top-0 z-50">
         <motion.div 
-          className="h-full bg-indigo-600 rounded-r-full"
+          className="h-full bg-primary rounded-r-full"
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
           transition={{ duration: 0.5, ease: "easeOut" }}
@@ -229,17 +229,17 @@ export default function PublicFormPage() {
             className="w-full pb-32"
           >
             <div className="flex items-start gap-4 mb-4">
-              <span className="text-indigo-600 font-bold text-xl sm:text-2xl pt-1 flex items-center gap-2">
-                {currentIdx + 1} <ArrowRightIcon className="w-5 h-5 text-indigo-300" />
+              <span className="text-primary font-bold text-xl sm:text-2xl pt-1 flex items-center gap-2">
+                {currentIdx + 1} <ArrowRightIcon className="w-5 h-5 text-primary/50" />
               </span>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-gray-900 leading-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-ink-dark leading-tight">
                 {question.title}
                 {question.required && <span className="text-red-500 ml-2">*</span>}
               </h2>
             </div>
             
             {question.description && (
-              <p className="text-lg sm:text-xl text-gray-500 mb-8 sm:ml-[3.25rem]">
+              <p className="text-lg sm:text-xl text-text-secondary/80 mb-8 sm:ml-[3.25rem]">
                 {question.description}
               </p>
             )}
@@ -258,13 +258,13 @@ export default function PublicFormPage() {
             <div className="mt-10 sm:ml-[3.25rem] flex items-center gap-4">
               <button
                 onClick={handleNext}
-                className="bg-indigo-600 text-white px-8 py-3.5 rounded-lg font-semibold text-lg hover:bg-indigo-700 transition-all hover:shadow-lg active:scale-95 flex items-center gap-2"
+                className="bg-primary text-white px-8 py-3.5 rounded-lg font-semibold text-lg hover:bg-indigo-700 transition-all hover:shadow-lg active:scale-95 flex items-center gap-2"
               >
                 {isLast ? 'Submit' : 'OK'} <Check className="w-5 h-5" />
               </button>
               {!isLast && (
-                 <span className="text-xs text-gray-400 font-medium hidden sm:inline-block">
-                   press <strong className="text-gray-500">Enter ↵</strong>
+                 <span className="text-xs text-text-secondary/60 font-medium hidden sm:inline-block">
+                   press <strong className="text-text-secondary/80">Enter ↵</strong>
                  </span>
               )}
             </div>
@@ -274,18 +274,18 @@ export default function PublicFormPage() {
 
       {/* Navigation Controls */}
       <div className="fixed bottom-0 right-0 p-6 flex flex-col items-end pointer-events-none">
-        <div className="pointer-events-auto bg-gray-900 text-white rounded-lg flex overflow-hidden shadow-xl">
+        <div className="pointer-events-auto bg-ink-dark text-white rounded-lg flex overflow-hidden shadow-xl">
           <button 
             onClick={handlePrev} 
             disabled={currentIdx === 0}
-            className="px-3 py-2.5 hover:bg-gray-800 disabled:opacity-50 transition-colors"
+            className="px-3 py-2.5 hover:opacity-90 disabled:opacity-50 transition-colors"
           >
             <ChevronUp className="w-6 h-6" />
           </button>
-          <div className="w-px bg-gray-700"></div>
+          <div className="w-px bg-border-soft"></div>
           <button 
             onClick={handleNext} 
-            className="px-3 py-2.5 hover:bg-gray-800 transition-colors"
+            className="px-3 py-2.5 hover:opacity-90 transition-colors"
           >
             <ChevronDown className="w-6 h-6" />
           </button>
@@ -318,7 +318,7 @@ function QuestionInput({
   inputRef: any,
   autoAdvance: () => void
 }) {
-  const commonClasses = "w-full text-2xl sm:text-3xl text-indigo-900 border-b-[3px] border-indigo-200 focus:border-indigo-600 bg-transparent py-2 outline-none transition-colors placeholder-indigo-200/50";
+  const commonClasses = "w-full text-2xl sm:text-3xl text-ink-dark border-b-[3px] border-purple-lavender focus:border-primary bg-transparent py-2 outline-none transition-colors placeholder-indigo-200/50";
 
   switch (question.type) {
     case 'short_text':
@@ -374,19 +374,19 @@ function QuestionInput({
                 }}
                 className={`w-full max-w-md text-left px-5 py-4 rounded-xl border-2 transition-all flex items-center gap-5 group ${
                   isSelected 
-                    ? 'border-indigo-600 bg-indigo-50 shadow-[0_0_0_1px_rgba(79,70,229,1)]' 
-                    : 'border-gray-200 bg-white hover:border-indigo-200 hover:bg-indigo-50/30'
+                    ? 'border-primary bg-purple-light shadow-[0_0_0_1px_#6C4CF6]' 
+                    : 'border-border-soft bg-card-bg hover:border-purple-lavender hover:bg-purple-light/30'
                 }`}
               >
                 <span className={`w-7 h-7 rounded flex items-center justify-center text-sm font-bold border transition-colors ${
-                  isSelected ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-indigo-600 border-indigo-200 group-hover:border-indigo-400'
+                  isSelected ? 'bg-primary text-white border-primary' : 'bg-card-bg text-primary border-purple-lavender group-hover:border-primary-dark'
                 }`}>
                   {letter}
                 </span>
-                <span className={`text-lg sm:text-xl ${isSelected ? 'text-indigo-900 font-medium' : 'text-gray-700'}`}>
+                <span className={`text-lg sm:text-xl ${isSelected ? 'text-ink-dark font-medium' : 'text-gray-700'}`}>
                   {opt}
                 </span>
-                {isSelected && <Check className="w-5 h-5 text-indigo-600 ml-auto" />}
+                {isSelected && <Check className="w-5 h-5 text-primary ml-auto" />}
               </button>
             );
           })}
@@ -408,16 +408,16 @@ function QuestionInput({
                 }}
                 className={`flex-1 text-center px-6 py-8 rounded-xl border-2 transition-all flex flex-col items-center gap-3 group ${
                   isSelected 
-                    ? 'border-indigo-600 bg-indigo-50 shadow-[0_0_0_1px_rgba(79,70,229,1)]' 
-                    : 'border-gray-200 bg-white hover:border-indigo-200 hover:bg-indigo-50/30'
+                    ? 'border-primary bg-purple-light shadow-[0_0_0_1px_#6C4CF6]' 
+                    : 'border-border-soft bg-card-bg hover:border-purple-lavender hover:bg-purple-light/30'
                 }`}
               >
                  <span className={`w-8 h-8 rounded flex items-center justify-center text-sm font-bold border transition-colors ${
-                  isSelected ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-indigo-600 border-indigo-200 group-hover:border-indigo-400'
+                  isSelected ? 'bg-primary text-white border-primary' : 'bg-card-bg text-primary border-purple-lavender group-hover:border-primary-dark'
                 }`}>
                   {letter}
                 </span>
-                <span className={`text-2xl ${isSelected ? 'text-indigo-900 font-medium' : 'text-gray-700'}`}>
+                <span className={`text-2xl ${isSelected ? 'text-ink-dark font-medium' : 'text-gray-700'}`}>
                   {opt}
                 </span>
               </button>
@@ -442,8 +442,8 @@ function QuestionInput({
                 }}
                 className={`w-14 h-16 sm:w-16 sm:h-20 rounded-xl border-2 transition-all flex flex-col items-center justify-center text-2xl font-medium group ${
                   isSelected 
-                    ? 'border-indigo-600 bg-indigo-600 text-white shadow-lg shadow-indigo-600/20' 
-                    : 'border-gray-200 bg-white text-gray-600 hover:border-indigo-300 hover:bg-indigo-50/50'
+                    ? 'border-primary bg-primary text-white shadow-lg shadow-primary/20' 
+                    : 'border-border-soft bg-card-bg text-text-secondary hover:border-primary hover:bg-purple-light/50'
                 }`}
               >
                 {val}

@@ -65,8 +65,8 @@ function SortableQuestion({
       style={style}
       className={`relative mb-4 group transition-all cursor-pointer rounded-2xl ${
         isActive 
-          ? 'bg-white shadow-[0_0_0_2px_rgba(79,70,229,1)] ring-4 ring-indigo-50' 
-          : 'bg-white border border-gray-200 hover:border-gray-300 hover:shadow-md'
+          ? 'bg-card-bg shadow-[0_0_0_2px_#6C4CF6] ring-4 ring-purple-light' 
+          : 'bg-card-bg border border-border-soft hover:border-gray-300 hover:shadow-md'
       } ${isDragging ? 'opacity-70 shadow-2xl scale-[1.02]' : ''}`}
       onClick={onSelect}
     >
@@ -75,10 +75,10 @@ function SortableQuestion({
         <div 
           {...attributes} 
           {...listeners}
-          className="w-10 flex items-center justify-center cursor-grab active:cursor-grabbing rounded-l-xl opacity-0 group-hover:opacity-100 transition-opacity hover:bg-gray-50"
+          className="w-10 flex items-center justify-center cursor-grab active:cursor-grabbing rounded-l-xl opacity-0 group-hover:opacity-100 transition-opacity hover:bg-page-bg"
           onClick={(e) => e.stopPropagation()}
         >
-          <GripVertical className="w-4 h-4 text-gray-400" />
+          <GripVertical className="w-4 h-4 text-text-secondary/70" />
         </div>
         
         {/* Content Area */}
@@ -86,8 +86,8 @@ function SortableQuestion({
           <div className="flex items-start justify-between gap-4">
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-xs font-semibold text-gray-500 uppercase flex items-center gap-1">
-                  <span className="w-5 h-5 rounded bg-gray-100 flex items-center justify-center mr-1">
+                <span className="text-xs font-semibold text-text-secondary uppercase flex items-center gap-1">
+                  <span className="w-5 h-5 rounded bg-purple-light flex items-center justify-center mr-1">
                     <Icon className="w-3 h-3" />
                   </span>
                   {index + 1}. {question.type.replace('_', ' ')}
@@ -96,11 +96,11 @@ function SortableQuestion({
                   <span className="text-[10px] uppercase font-bold tracking-wider text-red-500 bg-red-50 px-1.5 py-0.5 rounded">Required</span>
                 )}
               </div>
-              <h4 className={`text-lg font-medium leading-snug ${!question.title ? 'text-gray-400 italic' : 'text-gray-900'}`}>
+              <h4 className={`text-lg font-medium leading-snug ${!question.title ? 'text-text-secondary/70 italic' : 'text-ink-dark'}`}>
                 {question.title || 'Type your question here...'}
               </h4>
               {question.description && (
-                <p className="text-gray-500 text-sm mt-1">{question.description}</p>
+                <p className="text-text-secondary text-sm mt-1">{question.description}</p>
               )}
             </div>
 
@@ -109,7 +109,7 @@ function SortableQuestion({
                 e.stopPropagation();
                 onDelete();
               }}
-              className="text-gray-400 hover:text-red-500 p-2 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg hover:bg-red-50 mt-4"
+              className="text-text-secondary/70 hover:text-red-500 p-2 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg hover:bg-red-50 mt-4"
             >
               <Trash2 className="w-4 h-4" />
             </button>
@@ -155,17 +155,17 @@ export default function Canvas({
     <div className="absolute inset-0 overflow-y-auto px-4 py-8 sm:px-8">
       <div className="max-w-2xl mx-auto pb-32">
         <div className="mb-10 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-3">{form.title}</h2>
-          {form.description && <p className="text-lg text-gray-500">{form.description}</p>}
+          <h2 className="text-3xl font-bold text-ink-dark mb-3">{form.title}</h2>
+          {form.description && <p className="text-lg text-text-secondary">{form.description}</p>}
         </div>
 
         {form.questions.length === 0 ? (
-          <div className="text-center py-24 bg-white rounded-3xl border-2 border-dashed border-gray-200">
-            <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <Type className="w-8 h-8 text-gray-400" />
+          <div className="text-center py-24 bg-card-bg rounded-3xl border-2 border-dashed border-border-soft">
+            <div className="w-16 h-16 bg-page-bg rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <Type className="w-8 h-8 text-text-secondary/70" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Start building your form</h3>
-            <p className="text-gray-500 max-w-sm mx-auto">Add your first question from the left sidebar to get started.</p>
+            <h3 className="text-lg font-semibold text-ink-dark mb-2">Start building your form</h3>
+            <p className="text-text-secondary max-w-sm mx-auto">Add your first question from the left sidebar to get started.</p>
           </div>
         ) : (
           <DndContext 
