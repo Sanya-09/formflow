@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import { ArrowRight, Sparkles, Layout, Zap, Lock } from 'lucide-react';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-page-bg font-sans selection:bg-indigo-100 selection:text-indigo-900 overflow-x-hidden">
+    <div className="min-h-screen bg-page-bg font-sans selection:bg-purple-light selection:text-ink-dark overflow-x-hidden">
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-page-bg/80 backdrop-blur-md border-b border-border-soft/50">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
@@ -27,6 +28,7 @@ export default function LandingPage() {
           </nav>
 
           <div className="flex items-center gap-4">
+            <ThemeToggle />
             <Link href="/login" className="text-sm font-medium text-ink-dark hover:text-text-secondary transition-colors hidden sm:block">
               Log in
             </Link>

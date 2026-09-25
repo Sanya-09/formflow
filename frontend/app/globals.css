@@ -1,20 +1,52 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
+:root {
+  --primary: #6C4CF6;
+  --primary-dark: #5740D9;
+  --purple-light: #F1EEFF;
+  --purple-lavender: #E9E3FF;
+  --page-bg: #FAFAF8;
+  --card-bg: #FFFFFF;
+  --ink-dark: #111827;
+  --text-secondary: #667085;
+  --border-soft: #E7E7EA;
+  --success: #16A34A;
+  --success-bg: #EAF8EF;
+  --peach: #FFF0EA;
+  --pink: #FCECEF;
+}
+
+.dark {
+  --primary: #8167FB;
+  --primary-dark: #6C4CF6;
+  --purple-light: #2D235C;
+  --purple-lavender: #3B2D73;
+  --page-bg: #0F1115;
+  --card-bg: #161B22;
+  --ink-dark: #F3F4F6;
+  --text-secondary: #9CA3AF;
+  --border-soft: #374151;
+  --success: #34D399;
+  --success-bg: #064E3B;
+  --peach: #4A2218;
+  --pink: #4A1D2B;
+}
+
 @theme inline {
-  --color-primary: #6C4CF6;
-  --color-primary-dark: #5740D9;
-  --color-purple-light: #F1EEFF;
-  --color-purple-lavender: #E9E3FF;
-  --color-page-bg: #FAFAF8;
-  --color-card-bg: #FFFFFF;
-  --color-ink-dark: #111827;
-  --color-text-secondary: #667085;
-  --color-border-soft: #E7E7EA;
-  --color-success: #16A34A;
-  --color-success-bg: #EAF8EF;
-  --color-peach: #FFF0EA;
-  --color-pink: #FCECEF;
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-purple-light: var(--purple-light);
+  --color-purple-lavender: var(--purple-lavender);
+  --color-page-bg: var(--page-bg);
+  --color-card-bg: var(--card-bg);
+  --color-ink-dark: var(--ink-dark);
+  --color-text-secondary: var(--text-secondary);
+  --color-border-soft: var(--border-soft);
+  --color-success: var(--success);
+  --color-success-bg: var(--success-bg);
+  --color-peach: var(--peach);
+  --color-pink: var(--pink);
   --font-sans: 'Inter', sans-serif;
 }
 
@@ -23,4 +55,3 @@ body {
   color: var(--color-ink-dark);
   font-family: var(--font-sans);
 }
-

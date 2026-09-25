@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { LayoutDashboard, Users, FileText, Settings, Bell, HelpCircle, User } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -59,10 +60,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </div>
 
             <div className="flex items-center gap-4">
-              <button className="text-gray-400 hover:text-gray-600 transition-colors">
+              <ThemeToggle />
+              <button className="text-text-secondary hover:text-ink-dark transition-colors">
                 <HelpCircle className="w-5 h-5" />
               </button>
-              <button className="text-gray-400 hover:text-gray-600 transition-colors">
+              <button className="text-text-secondary hover:text-ink-dark transition-colors">
                 <Bell className="w-5 h-5" />
               </button>
               <div className="h-8 w-8 rounded-full bg-purple-light flex items-center justify-center border border-purple-lavender cursor-pointer">

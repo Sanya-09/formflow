@@ -71,17 +71,7 @@ formflow/
 
 ## API Documentation
 
-Key Endpoints:
-- `GET /api/forms` - List creator's forms
-- `POST /api/forms` - Create a new form
-- `GET /api/forms/{id}` - Get a form with its questions
-- `PATCH /api/forms/{id}` - Update form details
-- `POST /api/forms/{id}/publish` - Publish a form and generate a slug
-- `POST /api/forms/{id}/duplicate` - Duplicate form & questions
-- `POST /api/forms/{id}/reorder` - Bulk update question positions
-- `GET /api/public/forms/{slug}` - Get a published form (No auth required)
-- `POST /api/public/forms/{slug}/responses` - Submit a response
-- `GET /api/forms/{id}/stats` - Get summary statistics for a form
+For a comprehensive list of all API endpoints, request bodies, and response structures, please refer to the [API_DOCS.md](./API_DOCS.md) file included in the root of the project.
 
 ## Local Setup
 
