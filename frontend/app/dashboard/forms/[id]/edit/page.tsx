@@ -5,7 +5,7 @@ import { formsApi, questionsApi } from '@/lib/api';
 import { Form, Question } from '@/types';
 import { useParams, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { ArrowLeft, Save, Play, Globe, Check, Settings as SettingsIcon, Layout, Monitor, Smartphone } from 'lucide-react';
+import { ArrowLeft, Globe, Monitor, Smartphone } from 'lucide-react';
 import Link from 'next/link';
 
 // Builder components
@@ -131,7 +131,6 @@ export default function BuilderPage() {
         ? await formsApi.unpublishForm(form.id)
         : await formsApi.publishForm(form.id);
       
-      // Update form questions order because the response from backend might not include them in correct order if not handled
       updated.questions = form.questions; 
       
       setForm(updated);
@@ -144,10 +143,10 @@ export default function BuilderPage() {
   };
 
   if (loading || !form) return (
-    <div className="h-screen flex flex-col bg-card-bg">
+    <div className="h-screen flex flex-col bg-page-bg">
        <header className="h-14 bg-card-bg border-b border-border-soft px-6 flex items-center justify-between shrink-0"></header>
        <div className="flex-1 flex items-center justify-center">
-         <div className="w-8 h-8 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+         <div className="w-8 h-8 border-4 border-purple-lavender border-t-primary rounded-full animate-spin"></div>
        </div>
     </div>
   );
@@ -155,14 +154,14 @@ export default function BuilderPage() {
   const activeQuestion = form.questions.find(q => q.id === activeQuestionId);
 
   return (
-    <div className="h-[calc(100vh-64px)] flex flex-col bg-[#F9FAFB] overflow-hidden -mt-8 -mx-4 sm:-mx-6 lg:-mx-8">
+    <div className="h-[calc(100vh-64px)] flex flex-col bg-page-bg overflow-hidden -mt-8 -mx-4 sm:-mx-6 lg:-mx-8">
       {/* Builder Header */}
       <header className="h-16 bg-card-bg border-b border-border-soft px-6 flex items-center justify-between shrink-0 z-10 shadow-sm">
         <div className="flex items-center gap-4">
           <Link href="/dashboard" className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-purple-light text-text-secondary transition-colors">
             <ArrowLeft className="w-5 h-5" />
           </Link>
-          <div className="h-4 w-px bg-gray-300 hidden sm:block"></div>
+          <div className="h-4 w-px bg-border-soft hidden sm:block"></div>
           <input
             type="text"
             value={form.title}
@@ -172,7 +171,7 @@ export default function BuilderPage() {
             onBlur={(e) => {
               formsApi.updateForm(form.id, { title: e.target.value });
             }}
-            className="font-semibold text-text-primary bg-transparent border-none focus:ring-2 focus:ring-indigo-100 focus:outline-none placeholder-text-muted rounded px-2 py-1 transition-all"
+            className="font-semibold text-text-primary bg-transparent border-none focus:ring-2 focus:ring-primary/20 focus:outline-none placeholder-text-muted rounded px-2 py-1 transition-all"
             placeholder="Form Title"
           />
         </div>
@@ -181,19 +180,21 @@ export default function BuilderPage() {
           <div className="hidden md:flex bg-purple-light p-1 rounded-lg">
             <button 
               onClick={() => setPreviewMode('desktop')}
-              className={`p-1.5 rounded-md transition-colors ${previewMode === 'desktop' ? 'bg-card-bg shadow-sm text-text-primary' : 'text-text-secondary hover:text-text-secondary'}`}
+              className={`p-1.5 rounded-md transition-colors ${previewMode === 'desktop' ? 'bg-card-bg shadow-sm text-primary' : 'text-text-secondary hover:text-text-primary'}`}
+              title="Desktop preview"
             >
               <Monitor className="w-4 h-4" />
             </button>
             <button 
               onClick={() => setPreviewMode('mobile')}
-              className={`p-1.5 rounded-md transition-colors ${previewMode === 'mobile' ? 'bg-card-bg shadow-sm text-text-primary' : 'text-text-secondary hover:text-text-secondary'}`}
+              className={`p-1.5 rounded-md transition-colors ${previewMode === 'mobile' ? 'bg-card-bg shadow-sm text-primary' : 'text-text-secondary hover:text-text-primary'}`}
+              title="Mobile preview"
             >
               <Smartphone className="w-4 h-4" />
             </button>
           </div>
 
-          <div className="h-4 w-px bg-gray-300 hidden sm:block mx-2"></div>
+          <div className="h-4 w-px bg-border-soft hidden sm:block mx-2"></div>
 
           {form.status === 'published' && form.public_slug && (
             <button 
@@ -201,7 +202,7 @@ export default function BuilderPage() {
                 navigator.clipboard.writeText(`${window.location.origin}/form/${form.public_slug}`);
                 toast.success('Link copied to clipboard!');
               }}
-              className="text-sm font-medium text-text-secondary hover:text-text-primary flex items-center gap-1.5 bg-purple-light px-3 py-2 rounded-lg transition-colors border border-border-soft"
+              className="text-sm font-medium text-primary hover:text-primary-hover flex items-center gap-1.5 bg-purple-light px-3 py-2 rounded-lg transition-colors border border-purple-lavender/40"
             >
               <Globe className="w-4 h-4" /> Share
             </button>
@@ -209,10 +210,10 @@ export default function BuilderPage() {
           <button
             onClick={handlePublish}
             disabled={saving}
-            className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 shadow-sm ${
+            className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 shadow-sm cursor-pointer ${
               form.status === 'published' 
-                ? 'bg-card-bg border border-border-soft text-text-secondary hover:bg-card-elevated' 
-                : 'bg-inverted-bg text-inverted-text hover:opacity-90'
+                ? 'bg-card-bg border border-border-soft text-text-secondary hover:bg-card-elevated hover:text-text-primary' 
+                : 'bg-primary text-white hover:bg-primary-hover'
             }`}
           >
             {form.status === 'published' ? 'Unpublish' : 'Publish'}
@@ -226,7 +227,7 @@ export default function BuilderPage() {
         <Sidebar onAddQuestion={handleAddQuestion} />
 
         {/* Center Canvas - Form Preview/Reordering */}
-        <div className="flex-1 bg-[#F3F4F6] overflow-hidden flex flex-col relative">
+        <div className="flex-1 bg-canvas-bg overflow-hidden flex flex-col relative">
            <Canvas 
             form={form} 
             activeQuestionId={activeQuestionId}

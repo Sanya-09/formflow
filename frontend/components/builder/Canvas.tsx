@@ -65,7 +65,7 @@ function SortableQuestion({
       style={style}
       className={`relative mb-4 group transition-all cursor-pointer rounded-2xl ${
         isActive 
-          ? 'bg-card-bg shadow-[0_0_0_2px_#6C4CF6] ring-4 ring-purple-light' 
+          ? 'bg-card-bg border-2 border-primary shadow-md ring-4 ring-purple-light/50' 
           : 'bg-card-bg border border-border-soft hover:border-border-strong hover:shadow-md'
       } ${isDragging ? 'opacity-70 shadow-2xl scale-[1.02]' : ''}`}
       onClick={onSelect}
@@ -75,10 +75,10 @@ function SortableQuestion({
         <div 
           {...attributes} 
           {...listeners}
-          className="w-10 flex items-center justify-center cursor-grab active:cursor-grabbing rounded-l-xl opacity-0 group-hover:opacity-100 transition-opacity hover:bg-page-bg"
+          className="w-10 flex items-center justify-center cursor-grab active:cursor-grabbing rounded-l-xl opacity-0 group-hover:opacity-100 transition-opacity hover:bg-card-elevated"
           onClick={(e) => e.stopPropagation()}
         >
-          <GripVertical className="w-4 h-4 text-text-secondary/70" />
+          <GripVertical className="w-4 h-4 text-text-muted" />
         </div>
         
         {/* Content Area */}
@@ -87,16 +87,16 @@ function SortableQuestion({
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-xs font-semibold text-text-secondary uppercase flex items-center gap-1">
-                  <span className="w-5 h-5 rounded bg-purple-light flex items-center justify-center mr-1">
+                  <span className="w-5 h-5 rounded bg-purple-light text-primary flex items-center justify-center mr-1">
                     <Icon className="w-3 h-3" />
                   </span>
                   {index + 1}. {question.type.replace('_', ' ')}
                 </span>
                 {question.required && (
-                  <span className="text-[10px] uppercase font-bold tracking-wider text-red-500 bg-red-50 px-1.5 py-0.5 rounded">Required</span>
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-destructive bg-destructive-bg border border-destructive/20 px-1.5 py-0.5 rounded">Required</span>
                 )}
               </div>
-              <h4 className={`text-lg font-medium leading-snug ${!question.title ? 'text-text-secondary/70 italic' : 'text-text-primary'}`}>
+              <h4 className={`text-lg font-medium leading-snug ${!question.title ? 'text-text-muted italic' : 'text-text-primary'}`}>
                 {question.title || 'Type your question here...'}
               </h4>
               {question.description && (
@@ -109,7 +109,8 @@ function SortableQuestion({
                 e.stopPropagation();
                 onDelete();
               }}
-              className="text-text-secondary/70 hover:text-red-500 p-2 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg hover:bg-red-50 mt-4"
+              className="text-text-muted hover:text-destructive hover:bg-destructive-bg p-2 opacity-0 group-hover:opacity-100 transition-all rounded-lg mt-4"
+              title="Delete question"
             >
               <Trash2 className="w-4 h-4" />
             </button>
@@ -162,7 +163,7 @@ export default function Canvas({
         {form.questions.length === 0 ? (
           <div className="text-center py-24 bg-card-bg rounded-3xl border-2 border-dashed border-border-soft">
             <div className="w-16 h-16 bg-page-bg rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <Type className="w-8 h-8 text-text-secondary/70" />
+              <Type className="w-8 h-8 text-text-muted" />
             </div>
             <h3 className="text-lg font-semibold text-text-primary mb-2">Start building your form</h3>
             <p className="text-text-secondary max-w-sm mx-auto">Add your first question from the left sidebar to get started.</p>

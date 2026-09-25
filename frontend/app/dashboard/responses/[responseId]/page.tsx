@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { publicApi, responsesApi, formsApi } from '@/lib/api';
+import { responsesApi, formsApi } from '@/lib/api';
 import { Response, Form } from '@/types';
 import { useParams, useRouter } from 'next/navigation';
 import { ArrowLeft, Calendar, FileText, CheckCircle2, XCircle, Star } from 'lucide-react';
@@ -47,7 +47,7 @@ export default function IndividualResponsePage() {
     <div className="max-w-4xl mx-auto pb-20 animate-in fade-in duration-300">
       {/* Header */}
       <div className="mb-8 flex items-center gap-4">
-        <Link href={`/dashboard/forms/${form.id}/responses`} className="w-10 h-10 flex items-center justify-center rounded-xl border border-border-soft bg-card-bg hover:bg-page-bg text-text-secondary transition-colors shadow-sm">
+        <Link href={`/dashboard/forms/${form.id}/responses`} className="w-10 h-10 flex items-center justify-center rounded-xl border border-border-soft bg-card-bg hover:bg-card-elevated text-text-secondary hover:text-text-primary transition-colors shadow-sm">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
@@ -60,7 +60,7 @@ export default function IndividualResponsePage() {
 
       <div className="bg-card-bg rounded-2xl border border-border-soft shadow-sm overflow-hidden">
         {/* Top Info */}
-        <div className="bg-purple-light/30 p-6 border-b border-border-soft flex items-center gap-3">
+        <div className="bg-purple-light/40 p-6 border-b border-border-soft flex items-center gap-3">
            <Calendar className="w-5 h-5 text-primary" />
            <span className="text-text-primary font-medium">Submitted:</span>
            <span className="text-text-secondary">{new Date(response.submitted_at).toLocaleString(undefined, {
@@ -74,12 +74,16 @@ export default function IndividualResponsePage() {
             const answer = response.answers.find(a => a.question_id === q.id);
             const value = answer?.value;
             
-            let displayValue: React.ReactNode = <span className="italic text-text-secondary/60">Skipped</span>;
+            let displayValue: React.ReactNode = <span className="italic text-text-muted">Skipped</span>;
             
             if (value !== undefined && value !== null && value !== '') {
               if (q.type === 'yes_no') {
                 displayValue = (
-                  <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-semibold ${value === 'Yes' ? 'bg-success-bg text-success border border-success/20' : 'bg-pink text-red-700 border border-red-200'}`}>
+                  <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-semibold ${
+                    value === 'Yes' 
+                      ? 'bg-success-bg text-success border border-success/30' 
+                      : 'bg-destructive-bg text-destructive border border-destructive/30'
+                  }`}>
                     {value === 'Yes' ? <CheckCircle2 className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
                     {value}
                   </span>
@@ -88,9 +92,9 @@ export default function IndividualResponsePage() {
                 const max = q.settings?.max || 5;
                 const rating = parseInt(value);
                 displayValue = (
-                  <div className="flex gap-1">
+                  <div className="flex gap-1 items-center">
                     {Array.from({ length: max }).map((_, i) => (
-                      <Star key={i} className={`w-6 h-6 ${i < rating ? 'text-primary fill-primary' : 'text-border-soft'}`} />
+                      <Star key={i} className={`w-6 h-6 ${i < rating ? 'text-primary fill-primary' : 'text-border-strong'}`} />
                     ))}
                     <span className="ml-2 font-medium text-text-primary text-lg">{rating}/{max}</span>
                   </div>
@@ -103,7 +107,7 @@ export default function IndividualResponsePage() {
             return (
               <div key={q.id} className="relative pl-6 sm:pl-8">
                 {/* Number indicator */}
-                <div className="absolute left-0 top-0.5 text-sm font-semibold text-text-secondary/50">{idx + 1}.</div>
+                <div className="absolute left-0 top-0.5 text-sm font-semibold text-text-muted">{idx + 1}.</div>
                 
                 <h3 className="text-sm font-medium text-text-secondary mb-3 uppercase tracking-wider">{q.title}</h3>
                 <div className="mt-2">
@@ -111,7 +115,7 @@ export default function IndividualResponsePage() {
                 </div>
                 
                 {idx < form.questions.length - 1 && (
-                  <div className="h-px bg-border-soft/50 mt-10"></div>
+                  <div className="h-px bg-border-soft mt-10"></div>
                 )}
               </div>
             );

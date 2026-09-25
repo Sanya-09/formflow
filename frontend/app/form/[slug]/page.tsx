@@ -258,13 +258,13 @@ export default function PublicFormPage() {
             <div className="mt-10 sm:ml-[3.25rem] flex items-center gap-4">
               <button
                 onClick={handleNext}
-                className="bg-primary text-white px-8 py-3.5 rounded-lg font-semibold text-lg hover:bg-indigo-700 transition-all hover:shadow-lg active:scale-95 flex items-center gap-2"
+                className="bg-primary text-white px-8 py-3.5 rounded-lg font-semibold text-lg hover:bg-primary-hover transition-all hover:shadow-lg active:scale-95 flex items-center gap-2 cursor-pointer"
               >
                 {isLast ? 'Submit' : 'OK'} <Check className="w-5 h-5" />
               </button>
               {!isLast && (
-                 <span className="text-xs text-text-secondary/60 font-medium hidden sm:inline-block">
-                   press <strong className="text-text-secondary/80">Enter ↵</strong>
+                 <span className="text-xs text-text-muted font-medium hidden sm:inline-block">
+                   press <strong className="text-text-secondary">Enter ↵</strong>
                  </span>
               )}
             </div>
@@ -274,18 +274,20 @@ export default function PublicFormPage() {
 
       {/* Navigation Controls */}
       <div className="fixed bottom-0 right-0 p-6 flex flex-col items-end pointer-events-none">
-        <div className="pointer-events-auto bg-inverted-bg text-inverted-text rounded-lg flex overflow-hidden shadow-xl">
+        <div className="pointer-events-auto bg-card-bg text-text-primary border border-border-soft rounded-lg flex overflow-hidden shadow-xl">
           <button 
             onClick={handlePrev} 
             disabled={currentIdx === 0}
-            className="px-3 py-2.5 hover:opacity-90 disabled:opacity-50 transition-colors"
+            className="px-3 py-2.5 hover:bg-card-elevated disabled:opacity-30 transition-colors cursor-pointer"
+            aria-label="Previous question"
           >
             <ChevronUp className="w-6 h-6" />
           </button>
           <div className="w-px bg-border-soft"></div>
           <button 
             onClick={handleNext} 
-            className="px-3 py-2.5 hover:opacity-90 transition-colors"
+            className="px-3 py-2.5 hover:bg-card-elevated transition-colors cursor-pointer"
+            aria-label="Next question"
           >
             <ChevronDown className="w-6 h-6" />
           </button>
@@ -379,7 +381,7 @@ function QuestionInput({
                 }`}
               >
                 <span className={`w-7 h-7 rounded flex items-center justify-center text-sm font-bold border transition-colors ${
-                  isSelected ? 'bg-primary text-white border-primary' : 'bg-card-bg text-primary border-purple-lavender group-hover:border-primary-dark'
+                  isSelected ? 'bg-primary text-white border-primary' : 'bg-card-bg text-primary border-purple-lavender group-hover:border-primary'
                 }`}>
                   {letter}
                 </span>
@@ -406,14 +408,14 @@ function QuestionInput({
                   onChange(opt);
                   autoAdvance();
                 }}
-                className={`flex-1 text-center px-6 py-8 rounded-xl border-2 transition-all flex flex-col items-center gap-3 group ${
+                className={`flex-1 text-center px-6 py-8 rounded-xl border-2 transition-all flex flex-col items-center gap-3 group cursor-pointer ${
                   isSelected 
                     ? 'border-primary bg-purple-light shadow-[0_0_0_1px_#6C4CF6]' 
                     : 'border-border-soft bg-card-bg hover:border-purple-lavender hover:bg-purple-light/30'
                 }`}
               >
                  <span className={`w-8 h-8 rounded flex items-center justify-center text-sm font-bold border transition-colors ${
-                  isSelected ? 'bg-primary text-white border-primary' : 'bg-card-bg text-primary border-purple-lavender group-hover:border-primary-dark'
+                  isSelected ? 'bg-primary text-white border-primary' : 'bg-card-bg text-primary border-purple-lavender group-hover:border-primary'
                 }`}>
                   {letter}
                 </span>
@@ -440,10 +442,10 @@ function QuestionInput({
                   onChange(val);
                   autoAdvance();
                 }}
-                className={`w-14 h-16 sm:w-16 sm:h-20 rounded-xl border-2 transition-all flex flex-col items-center justify-center text-2xl font-medium group ${
+                className={`w-14 h-16 sm:w-16 sm:h-20 rounded-xl border-2 transition-all flex flex-col items-center justify-center text-2xl font-medium group cursor-pointer ${
                   isSelected 
                     ? 'border-primary bg-primary text-white shadow-lg shadow-primary/20' 
-                    : 'border-border-soft bg-card-bg text-text-secondary hover:border-primary hover:bg-purple-light/50'
+                    : 'border-border-soft bg-card-bg text-text-primary hover:border-primary hover:bg-purple-light/50'
                 }`}
               >
                 {val}

@@ -15,15 +15,15 @@ export default function SettingsPanel({
       <div className="w-80 bg-card-bg border-l border-border-soft shrink-0 flex flex-col h-full z-10 shadow-sm">
         <div className="p-5 border-b border-border-soft">
            <h3 className="font-semibold text-text-primary flex items-center gap-2">
-             <Settings className="w-4 h-4" /> Settings
+             <Settings className="w-4 h-4 text-text-muted" /> Settings
            </h3>
         </div>
-        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-page-bg/50">
+        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-card-elevated/50">
           <div className="w-16 h-16 bg-card-bg rounded-2xl flex items-center justify-center mb-4 border border-border-soft shadow-sm">
-            <Settings className="w-8 h-8 text-border-soft" />
+            <Settings className="w-8 h-8 text-text-muted" />
           </div>
           <p className="text-sm font-medium text-text-primary mb-1">No question selected</p>
-          <p className="text-sm text-text-secondary/70">Select a question to edit its properties</p>
+          <p className="text-sm text-text-muted">Select a question to edit its properties</p>
         </div>
       </div>
     );
@@ -52,7 +52,7 @@ export default function SettingsPanel({
         <h3 className="font-semibold text-text-primary flex items-center gap-2">
            <Settings className="w-4 h-4 text-primary" /> Block Settings
         </h3>
-        <span className="text-xs font-semibold bg-purple-light text-text-secondary px-2 py-1 rounded uppercase tracking-wider">
+        <span className="text-xs font-semibold bg-purple-light text-primary px-2.5 py-1 rounded-full uppercase tracking-wider">
           {question.type.replace('_', ' ')}
         </span>
       </div>
@@ -67,7 +67,7 @@ export default function SettingsPanel({
               onChange={(e) => onUpdate(question.id, { title: e.target.value })}
               rows={3}
               placeholder="E.g. What's your name?"
-              className="w-full border border-border-soft rounded-xl shadow-sm py-2 px-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow resize-none bg-page-bg focus:bg-card-bg"
+              className="w-full border border-border-soft rounded-xl shadow-sm py-2 px-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-shadow resize-none bg-input-bg text-text-primary placeholder-text-muted"
             />
           </div>
 
@@ -78,14 +78,14 @@ export default function SettingsPanel({
               onChange={(e) => onUpdate(question.id, { description: e.target.value })}
               rows={2}
               placeholder="Add more context..."
-              className="w-full border border-border-soft rounded-xl shadow-sm py-2 px-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow resize-none bg-page-bg focus:bg-card-bg"
+              className="w-full border border-border-soft rounded-xl shadow-sm py-2 px-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-shadow resize-none bg-input-bg text-text-primary placeholder-text-muted"
             />
           </div>
 
-          <div className="flex items-center justify-between p-4 rounded-xl border border-border-soft bg-card-bg shadow-sm">
+          <div className="flex items-center justify-between p-4 rounded-xl border border-border-soft bg-card-elevated shadow-sm">
             <div>
               <label className="text-sm font-semibold text-text-primary block">Required</label>
-              <span className="text-xs text-text-secondary/70">Prevent skipping</span>
+              <span className="text-xs text-text-muted">Prevent skipping</span>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input 
@@ -94,7 +94,7 @@ export default function SettingsPanel({
                 onChange={(e) => onUpdate(question.id, { required: e.target.checked })}
                 className="sr-only peer"
               />
-              <div className="w-11 h-6 bg-border-soft peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-light rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-card-bg after:border-border-strong after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+              <div className="w-11 h-6 bg-border-soft peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-light rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-card-bg after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-card-bg after:border-border-strong after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
             </label>
           </div>
         </div>
@@ -107,24 +107,28 @@ export default function SettingsPanel({
             </div>
             <div className="space-y-3">
               {(question.settings.options || []).map((opt: string, i: number) => (
-                <div key={i} className="flex gap-2 group relative">
-                  <div className="w-6 h-8 flex items-center justify-center text-xs font-semibold text-text-secondary/50">
+                <div key={i} className="flex gap-2 group relative items-center">
+                  <div className="w-6 h-8 flex items-center justify-center text-xs font-semibold text-text-muted">
                     {String.fromCharCode(65 + i)}
                   </div>
                   <input
                     type="text"
                     value={opt}
                     onChange={(e) => handleOptionsChange(i, e.target.value)}
-                    className="flex-1 border border-border-soft bg-card-bg rounded-lg shadow-sm py-2 px-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow"
+                    className="flex-1 border border-border-soft bg-input-bg text-text-primary rounded-lg shadow-sm py-2 px-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-shadow"
                   />
-                  <button onClick={() => removeOption(i)} className="p-2 text-border-soft hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100">
+                  <button 
+                    onClick={() => removeOption(i)} 
+                    className="p-1.5 text-text-muted hover:text-destructive hover:bg-destructive-bg rounded-lg transition-colors opacity-0 group-hover:opacity-100 cursor-pointer"
+                    title="Remove choice"
+                  >
                     <X className="w-4 h-4" />
                   </button>
                 </div>
               ))}
               <button
                 onClick={addOption}
-                className="w-full mt-2 py-2.5 border-2 border-dashed border-border-soft rounded-xl text-sm font-medium text-text-secondary hover:border-primary hover:text-primary hover:bg-purple-light transition-all flex items-center justify-center gap-2"
+                className="w-full mt-2 py-2.5 border-2 border-dashed border-border-soft rounded-xl text-sm font-medium text-text-secondary hover:border-primary hover:text-primary hover:bg-purple-light transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Plus className="w-4 h-4" /> Add Choice
               </button>
@@ -136,14 +140,14 @@ export default function SettingsPanel({
           <div className="pt-6 border-t border-border-soft">
             <label className="block text-sm font-semibold text-text-primary mb-2">Scale Range</label>
             <div className="flex items-center gap-3">
-              <span className="text-sm text-text-secondary/70">1 to</span>
+              <span className="text-sm text-text-muted">1 to</span>
               <select
                 value={question.settings.max || 5}
                 onChange={(e) => onUpdate(question.id, { settings: { ...question.settings, max: parseInt(e.target.value) || 5 } })}
-                className="flex-1 border border-border-soft rounded-lg shadow-sm py-2 px-3 text-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow outline-none cursor-pointer"
+                className="flex-1 border border-border-soft bg-input-bg text-text-primary rounded-lg shadow-sm py-2 px-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-shadow outline-none cursor-pointer"
               >
                 {[3, 4, 5, 6, 7, 8, 9, 10].map(n => (
-                  <option key={n} value={n}>{n}</option>
+                  <option key={n} value={n} className="bg-card-bg text-text-primary">{n}</option>
                 ))}
               </select>
             </div>

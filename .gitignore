@@ -3,9 +3,10 @@ node_modules/
 __pycache__/
 venv/
 *.pyc
-*.db
 .env
+.env.local
 .DS_Store
 *.db
+formflow.db
 *.sqlite
 *.sqlite3

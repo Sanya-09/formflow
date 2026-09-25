@@ -4,7 +4,7 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-page-bg font-sans selection:bg-purple-light selection:text-text-primary overflow-x-hidden">
+    <div className="min-h-screen bg-page-bg font-sans selection:bg-purple-light selection:text-primary overflow-x-hidden">
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-page-bg/80 backdrop-blur-md border-b border-border-soft/50">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
@@ -32,7 +32,7 @@ export default function LandingPage() {
             <Link href="/login" className="text-sm font-medium text-text-primary hover:text-text-secondary transition-colors hidden sm:block">
               Log in
             </Link>
-            <Link href="/signup" className="text-sm font-semibold bg-inverted-bg text-inverted-text px-5 py-2.5 rounded-full hover:bg-text-primary transition-all hover:scale-105 active:scale-95 shadow-sm">
+            <Link href="/signup" className="text-sm font-semibold bg-primary text-white px-5 py-2.5 rounded-full hover:bg-primary-hover transition-all hover:scale-105 active:scale-95 shadow-sm">
               Sign up free
             </Link>
           </div>
@@ -42,18 +42,18 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="pt-40 pb-20 px-6 max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
         <div className="flex-1 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-light text-primary-hover text-sm font-medium mb-8 border border-indigo-100">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-light text-primary text-sm font-medium mb-8 border border-purple-lavender/30">
             <Sparkles className="w-4 h-4" />
             <span>Meet the new FormFlow 2.0</span>
           </div>
           <h1 className="text-5xl md:text-7xl font-bold text-text-primary tracking-tight leading-[1.1] mb-8">
-            Forms that feel like <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">conversations.</span>
+            Forms that feel like <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-400">conversations.</span>
           </h1>
           <p className="text-xl text-text-secondary mb-10 leading-relaxed max-w-xl">
             Create beautiful, interactive forms that turn responses into meaningful insights. Keep your audience engaged with one question at a time.
           </p>
           <div className="flex flex-col sm:flex-row items-center gap-4">
-            <Link href="/signup" className="w-full sm:w-auto text-center text-lg font-semibold bg-inverted-bg text-inverted-text px-8 py-4 rounded-full hover:bg-text-primary transition-all hover:shadow-lg hover:-translate-y-1">
+            <Link href="/signup" className="w-full sm:w-auto text-center text-lg font-semibold bg-primary text-white px-8 py-4 rounded-full hover:bg-primary-hover transition-all hover:shadow-lg hover:-translate-y-1">
               Get started — it&apos;s free
             </Link>
             <Link href="#features" className="w-full sm:w-auto text-center text-lg font-medium text-text-primary px-8 py-4 rounded-full hover:bg-card-elevated transition-colors border border-transparent hover:border-border-soft">
@@ -64,7 +64,7 @@ export default function LandingPage() {
 
         {/* Hero Visual */}
         <div className="flex-1 w-full max-w-2xl relative">
-          <div className="absolute inset-0 bg-gradient-to-tr from-purple-lavender to-purple-light rounded-[2.5rem] transform rotate-3 scale-105 -z-10"></div>
+          <div className="absolute inset-0 bg-gradient-to-tr from-purple-lavender/40 to-purple-light/20 rounded-[2.5rem] transform rotate-3 scale-105 -z-10"></div>
           <div className="bg-card-bg rounded-[2rem] shadow-2xl border border-border-soft overflow-hidden aspect-[4/3] flex flex-col relative z-0">
             <div className="h-1 bg-card-elevated w-full"><div className="h-full bg-primary w-1/3"></div></div>
             <div className="flex-1 flex flex-col items-center justify-center p-12 text-center">
@@ -76,11 +76,11 @@ export default function LandingPage() {
               </h2>
               <div className="space-y-3 w-full max-w-md">
                 {['Email', 'Phone', 'Carrier Pigeon'].map((opt, i) => (
-                  <div key={opt} className={`p-4 rounded-xl border-2 text-left flex items-center gap-4 ${i === 0 ? 'border-primary bg-purple-light/50' : 'border-border-soft bg-card-bg'}`}>
+                  <div key={opt} className={`p-4 rounded-xl border-2 text-left flex items-center gap-4 ${i === 0 ? 'border-primary bg-purple-light/40' : 'border-border-soft bg-card-bg'}`}>
                     <div className={`w-6 h-6 rounded flex items-center justify-center text-xs font-bold border ${i === 0 ? 'bg-primary text-white border-primary' : 'bg-card-elevated text-text-muted border-border-soft'}`}>
                       {String.fromCharCode(65 + i)}
                     </div>
-                    <span className={`text-lg ${i === 0 ? 'text-indigo-900 font-medium' : 'text-text-secondary'}`}>{opt}</span>
+                    <span className={`text-lg ${i === 0 ? 'text-text-primary font-medium' : 'text-text-secondary'}`}>{opt}</span>
                   </div>
                 ))}
               </div>
@@ -124,9 +124,9 @@ export default function LandingPage() {
       </section>
 
       {/* Footer CTA */}
-      <section className="py-32 bg-inverted-bg text-inverted-text text-center px-6">
-        <h2 className="text-4xl md:text-5xl font-bold mb-8 tracking-tight">Ready to transform your forms?</h2>
-        <Link href="/signup" className="inline-block text-lg font-semibold bg-card-bg text-text-primary px-8 py-4 rounded-full hover:bg-card-elevated transition-all hover:scale-105 active:scale-95 shadow-xl">
+      <section className="py-32 bg-card-elevated text-center px-6 border-t border-border-soft">
+        <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-8 tracking-tight">Ready to transform your forms?</h2>
+        <Link href="/signup" className="inline-block text-lg font-semibold bg-primary text-white px-8 py-4 rounded-full hover:bg-primary-hover transition-all hover:scale-105 active:scale-95 shadow-xl">
           Get started for free
         </Link>
       </section>

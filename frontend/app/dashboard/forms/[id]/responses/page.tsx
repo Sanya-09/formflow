@@ -53,7 +53,7 @@ export default function ResponsesPage() {
       {/* Header */}
       <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <Link href="/dashboard" className="w-10 h-10 flex items-center justify-center rounded-xl border border-border-soft bg-card-bg hover:bg-page-bg text-text-secondary transition-colors shadow-sm">
+          <Link href="/dashboard" className="w-10 h-10 flex items-center justify-center rounded-xl border border-border-soft bg-card-bg hover:bg-card-elevated text-text-secondary hover:text-text-primary transition-colors shadow-sm">
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <div>
@@ -64,13 +64,13 @@ export default function ResponsesPage() {
         <div className="flex bg-card-bg rounded-lg p-1 shadow-sm border border-border-soft">
           <button 
             onClick={() => setActiveTab('summary')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === 'summary' ? 'bg-purple-light text-primary-hover' : 'text-text-secondary hover:text-text-primary hover:bg-page-bg'}`}
+            className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer ${activeTab === 'summary' ? 'bg-purple-light text-primary font-semibold' : 'text-text-secondary hover:text-text-primary hover:bg-card-elevated'}`}
           >
             <BarChart3 className="w-4 h-4" /> Summary
           </button>
           <button 
             onClick={() => setActiveTab('responses')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === 'responses' ? 'bg-purple-light text-primary-hover' : 'text-text-secondary hover:text-text-primary hover:bg-page-bg'}`}
+            className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer ${activeTab === 'responses' ? 'bg-purple-light text-primary font-semibold' : 'text-text-secondary hover:text-text-primary hover:bg-card-elevated'}`}
           >
             <ListIcon className="w-4 h-4" /> Responses
           </button>
@@ -92,7 +92,7 @@ export default function ResponsesPage() {
             </div>
             
             <div className="bg-card-bg p-6 rounded-2xl border border-border-soft shadow-sm flex items-center gap-5">
-              <div className="p-4 bg-green-50 text-green-600 rounded-xl">
+              <div className="p-4 bg-success-bg text-success rounded-xl">
                 <Activity className="w-6 h-6" />
               </div>
               <div>
@@ -102,7 +102,7 @@ export default function ResponsesPage() {
             </div>
             
             <div className="bg-card-bg p-6 rounded-2xl border border-border-soft shadow-sm flex items-center gap-5">
-              <div className="p-4 bg-purple-50 text-purple-600 rounded-xl">
+              <div className="p-4 bg-purple-light text-primary rounded-xl">
                 <Calendar className="w-6 h-6" />
               </div>
               <div>
@@ -121,7 +121,7 @@ export default function ResponsesPage() {
               const qStats = stats?.[q.id];
               return (
                 <div key={q.id} className="bg-card-bg p-6 md:p-8 rounded-2xl border border-border-soft shadow-sm">
-                  <span className="inline-block px-2.5 py-1 bg-purple-light text-text-secondary text-xs font-semibold uppercase tracking-wider rounded mb-4">
+                  <span className="inline-block px-2.5 py-1 bg-purple-light text-primary text-xs font-semibold uppercase tracking-wider rounded mb-4">
                     {q.type.replace('_', ' ')}
                   </span>
                   <h3 className="font-semibold text-lg text-text-primary mb-6 leading-snug">
@@ -141,7 +141,7 @@ export default function ResponsesPage() {
                                   <span className="text-text-secondary font-medium">{count} <span className="text-text-muted font-normal">({percent}%)</span></span>
                                 </div>
                                 <div className="w-full bg-purple-light rounded-full h-2.5 overflow-hidden">
-                                  <div className="bg-indigo-600 h-full rounded-full transition-all duration-1000 ease-out" style={{ width: `${percent}%` }}></div>
+                                  <div className="bg-primary h-full rounded-full transition-all duration-1000 ease-out" style={{ width: `${percent}%` }}></div>
                                 </div>
                               </div>
                             );
@@ -149,30 +149,30 @@ export default function ResponsesPage() {
                         </div>
                       ) : q.type === 'rating' || q.type === 'number' ? (
                         <div className="flex gap-4">
-                          <div className="flex-1 bg-page-bg p-4 rounded-xl text-center border border-border-soft">
+                          <div className="flex-1 bg-card-elevated p-4 rounded-xl text-center border border-border-soft">
                             <p className="text-xs text-text-secondary font-medium uppercase tracking-wider mb-1">Average</p>
                             <p className="text-3xl font-bold text-primary">
                               {qStats.average?.toFixed(1) || '0'}
                             </p>
                           </div>
-                          <div className="flex-1 bg-page-bg p-4 rounded-xl text-center border border-border-soft">
+                          <div className="flex-1 bg-card-elevated p-4 rounded-xl text-center border border-border-soft">
                             <p className="text-xs text-text-secondary font-medium uppercase tracking-wider mb-1">Min</p>
                             <p className="text-2xl font-semibold text-text-primary">{qStats.min || '0'}</p>
                           </div>
-                          <div className="flex-1 bg-page-bg p-4 rounded-xl text-center border border-border-soft">
+                          <div className="flex-1 bg-card-elevated p-4 rounded-xl text-center border border-border-soft">
                             <p className="text-xs text-text-secondary font-medium uppercase tracking-wider mb-1">Max</p>
                             <p className="text-2xl font-semibold text-text-primary">{qStats.max || '0'}</p>
                           </div>
                         </div>
                       ) : (
-                        <div className="bg-page-bg rounded-xl p-6 text-center border border-border-soft text-sm text-text-secondary">
+                        <div className="bg-card-elevated rounded-xl p-6 text-center border border-border-soft text-sm text-text-secondary">
                           <span className="font-semibold text-text-primary">{qStats.total}</span> text responses collected.<br/>
                           Switch to the <strong>Responses</strong> tab to read them.
                         </div>
                       )}
                     </div>
                   ) : (
-                     <div className="text-center py-8 text-sm text-text-secondary border-2 border-dashed border-border-soft rounded-xl">
+                     <div className="text-center py-8 text-sm text-text-muted border-2 border-dashed border-border-soft rounded-xl">
                        No data for this question yet.
                      </div>
                   )}
@@ -185,8 +185,8 @@ export default function ResponsesPage() {
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-4xl mx-auto">
           {responses.length === 0 ? (
             <div className="bg-card-bg p-12 rounded-2xl border border-border-soft text-center shadow-sm">
-              <div className="w-16 h-16 bg-page-bg rounded-full flex items-center justify-center mx-auto mb-4">
-                 <ListIcon className="w-8 h-8 text-gray-300" />
+              <div className="w-16 h-16 bg-card-elevated rounded-full flex items-center justify-center mx-auto mb-4">
+                 <ListIcon className="w-8 h-8 text-text-muted" />
               </div>
               <h3 className="text-lg font-medium text-text-primary mb-1">No responses yet</h3>
               <p className="text-text-secondary">Share your form to start collecting data.</p>
@@ -208,7 +208,7 @@ export default function ResponsesPage() {
                 </thead>
                 <tbody className="divide-y divide-border-soft">
                   {responses.map((response, idx) => (
-                    <tr key={response.id} className="hover:bg-page-bg transition-colors cursor-pointer" onClick={() => router.push(`/dashboard/responses/${response.id}`)}>
+                    <tr key={response.id} className="hover:bg-card-elevated transition-colors cursor-pointer" onClick={() => router.push(`/dashboard/responses/${response.id}`)}>
                       <td className="px-6 py-4 text-sm font-medium text-text-primary whitespace-nowrap">
                         {responses.length - idx}
                       </td>
@@ -224,7 +224,7 @@ export default function ResponsesPage() {
                         );
                       })}
                       <td className="px-6 py-4 text-sm text-right">
-                        <Link href={`/dashboard/responses/${response.id}`} onClick={(e) => e.stopPropagation()} className="text-primary hover:text-primary-hover font-medium transition-colors">
+                        <Link href={`/dashboard/responses/${response.id}`} onClick={(e) => e.stopPropagation()} className="text-primary hover:text-primary-hover font-semibold transition-colors">
                           View
                         </Link>
                       </td>

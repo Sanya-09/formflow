@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { LayoutDashboard, Users, FileText, Settings, Bell, HelpCircle, User } from 'lucide-react';
+import { Bell, HelpCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
@@ -47,7 +47,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               
               {/* Nav Links */}
               <nav className="hidden md:flex space-x-1">
-                <Link href="/dashboard" className="px-3 py-2 rounded-md text-sm font-medium text-text-primary bg-purple-light">
+                <Link href="/dashboard" className="px-3 py-2 rounded-md text-sm font-semibold text-primary bg-purple-light">
                   Forms
                 </Link>
                 <Link href="/dashboard" className="px-3 py-2 rounded-md text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-card-elevated transition-colors">
@@ -61,14 +61,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
             <div className="flex items-center gap-4">
               <ThemeToggle />
-              <button className="text-text-secondary hover:text-text-primary transition-colors">
+              <button className="text-text-secondary hover:text-text-primary transition-colors cursor-pointer" title="Help">
                 <HelpCircle className="w-5 h-5" />
               </button>
-              <button className="text-text-secondary hover:text-text-primary transition-colors">
+              <button className="text-text-secondary hover:text-text-primary transition-colors cursor-pointer" title="Notifications">
                 <Bell className="w-5 h-5" />
               </button>
-              <div className="h-8 w-8 rounded-full bg-purple-light flex items-center justify-center border border-purple-lavender cursor-pointer">
-                <span className="text-sm font-medium text-primary-hover">DC</span>
+              <div className="h-8 w-8 rounded-full bg-purple-light flex items-center justify-center border border-purple-lavender/40 cursor-pointer">
+                <span className="text-sm font-semibold text-primary">DC</span>
               </div>
             </div>
           </div>
