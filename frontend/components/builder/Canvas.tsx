@@ -10,7 +10,6 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import {
-  arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
@@ -34,12 +33,14 @@ function SortableQuestion({
   question, 
   isActive, 
   onSelect, 
-  onDelete 
+  onDelete,
+  index
 }: { 
   question: Question; 
   isActive: boolean; 
   onSelect: () => void;
   onDelete: () => void;
+  index: number;
 }) {
   const {
     attributes,
@@ -53,7 +54,7 @@ function SortableQuestion({
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    zIndex: isDragging ? 10 : 1,
+    zIndex: isDragging ? 50 : 1,
   };
 
   const Icon = ICON_MAP[question.type] || Type;
@@ -62,50 +63,58 @@ function SortableQuestion({
     <div
       ref={setNodeRef}
       style={style}
-      className={`relative mb-3 group rounded-xl border-2 transition-all cursor-pointer ${
+      className={`relative mb-4 group transition-all cursor-pointer rounded-2xl ${
         isActive 
-          ? 'border-indigo-500 bg-indigo-50/30' 
-          : 'border-transparent bg-white hover:border-gray-200 shadow-sm'
-      }`}
+          ? 'bg-white shadow-[0_0_0_2px_rgba(79,70,229,1)] ring-4 ring-indigo-50' 
+          : 'bg-white border border-gray-200 hover:border-gray-300 hover:shadow-md'
+      } ${isDragging ? 'opacity-70 shadow-2xl scale-[1.02]' : ''}`}
       onClick={onSelect}
     >
-      <div className="p-4 flex items-start gap-3">
+      <div className="flex p-1">
+        {/* Drag Handle Area */}
         <div 
           {...attributes} 
           {...listeners}
-          className="mt-1 cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600 p-1"
+          className="w-10 flex items-center justify-center cursor-grab active:cursor-grabbing rounded-l-xl opacity-0 group-hover:opacity-100 transition-opacity hover:bg-gray-50"
           onClick={(e) => e.stopPropagation()}
         >
-          <GripVertical className="w-5 h-5" />
+          <GripVertical className="w-4 h-4 text-gray-400" />
         </div>
         
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs font-semibold text-indigo-600 uppercase bg-indigo-100 px-2 py-0.5 rounded flex items-center gap-1">
-              <Icon className="w-3 h-3" />
-              {question.type.replace('_', ' ')}
-            </span>
-            {question.required && (
-              <span className="text-xs text-red-500 font-medium">* Required</span>
-            )}
-          </div>
-          <h4 className="text-gray-900 font-medium truncate">
-            {question.title || 'Untitled Question'}
-          </h4>
-          {question.description && (
-            <p className="text-gray-500 text-sm truncate mt-1">{question.description}</p>
-          )}
-        </div>
+        {/* Content Area */}
+        <div className="flex-1 p-4 pl-0">
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-xs font-semibold text-gray-500 uppercase flex items-center gap-1">
+                  <span className="w-5 h-5 rounded bg-gray-100 flex items-center justify-center mr-1">
+                    <Icon className="w-3 h-3" />
+                  </span>
+                  {index + 1}. {question.type.replace('_', ' ')}
+                </span>
+                {question.required && (
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-red-500 bg-red-50 px-1.5 py-0.5 rounded">Required</span>
+                )}
+              </div>
+              <h4 className={`text-lg font-medium leading-snug ${!question.title ? 'text-gray-400 italic' : 'text-gray-900'}`}>
+                {question.title || 'Type your question here...'}
+              </h4>
+              {question.description && (
+                <p className="text-gray-500 text-sm mt-1">{question.description}</p>
+              )}
+            </div>
 
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onDelete();
-          }}
-          className="text-gray-400 hover:text-red-500 p-2 opacity-0 group-hover:opacity-100 transition-opacity rounded-md hover:bg-red-50"
-        >
-          <Trash2 className="w-4 h-4" />
-        </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete();
+              }}
+              className="text-gray-400 hover:text-red-500 p-2 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg hover:bg-red-50 mt-4"
+            >
+              <Trash2 className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -137,23 +146,26 @@ export default function Canvas({
 
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
-    if (active.id !== over.id) {
+    if (over && active.id !== over.id) {
       onReorder(active.id, over.id);
     }
   };
 
   return (
-    <div className="flex-1 bg-gray-50/50 overflow-y-auto p-8 flex flex-col items-center">
-      <div className="w-full max-w-2xl">
-        <div className="mb-8 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">{form.title}</h2>
-          {form.description && <p className="text-gray-500">{form.description}</p>}
+    <div className="absolute inset-0 overflow-y-auto px-4 py-8 sm:px-8">
+      <div className="max-w-2xl mx-auto pb-32">
+        <div className="mb-10 text-center">
+          <h2 className="text-3xl font-bold text-gray-900 mb-3">{form.title}</h2>
+          {form.description && <p className="text-lg text-gray-500">{form.description}</p>}
         </div>
 
         {form.questions.length === 0 ? (
-          <div className="text-center py-20 bg-white rounded-xl border-2 border-dashed border-gray-200">
-            <h3 className="text-gray-500 mb-2 font-medium">Your form is empty</h3>
-            <p className="text-sm text-gray-400">Add a question from the left sidebar to get started.</p>
+          <div className="text-center py-24 bg-white rounded-3xl border-2 border-dashed border-gray-200">
+            <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <Type className="w-8 h-8 text-gray-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Start building your form</h3>
+            <p className="text-gray-500 max-w-sm mx-auto">Add your first question from the left sidebar to get started.</p>
           </div>
         ) : (
           <DndContext 
@@ -165,10 +177,11 @@ export default function Canvas({
               items={form.questions.map(q => q.id)}
               strategy={verticalListSortingStrategy}
             >
-              {form.questions.map((question) => (
+              {form.questions.map((question, index) => (
                 <SortableQuestion 
                   key={question.id} 
                   question={question} 
+                  index={index}
                   isActive={activeQuestionId === question.id}
                   onSelect={() => onSelectQuestion(question.id)}
                   onDelete={() => onDeleteQuestion(question.id)}

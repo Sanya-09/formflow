@@ -5,10 +5,10 @@ import { formsApi, questionsApi } from '@/lib/api';
 import { Form, Question } from '@/types';
 import { useParams, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { ArrowLeft, Save, Play, Globe, Check, Settings as SettingsIcon } from 'lucide-react';
+import { ArrowLeft, Save, Play, Globe, Check, Settings as SettingsIcon, Layout, Monitor, Smartphone } from 'lucide-react';
 import Link from 'next/link';
 
-// Builder components will be imported here
+// Builder components
 import Sidebar from '@/components/builder/Sidebar';
 import Canvas from '@/components/builder/Canvas';
 import SettingsPanel from '@/components/builder/SettingsPanel';
@@ -22,6 +22,7 @@ export default function BuilderPage() {
   const [activeQuestionId, setActiveQuestionId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [previewMode, setPreviewMode] = useState<'desktop' | 'mobile'>('desktop');
 
   useEffect(() => {
     loadForm();
@@ -30,6 +31,7 @@ export default function BuilderPage() {
   const loadForm = async () => {
     try {
       const data = await formsApi.getForm(formId);
+      data.questions.sort((a, b) => a.position - b.position);
       setForm(data);
       if (data.questions.length > 0 && !activeQuestionId) {
         setActiveQuestionId(data.questions[0].id);
@@ -46,7 +48,7 @@ export default function BuilderPage() {
     if (!form) return;
     try {
       const newQuestion = await questionsApi.createQuestion(form.id, {
-        type,
+        type: type as any,
         title: 'New Question',
         position: form.questions.length,
       });
@@ -128,8 +130,12 @@ export default function BuilderPage() {
       const updated = form.status === 'published' 
         ? await formsApi.unpublishForm(form.id)
         : await formsApi.publishForm(form.id);
+      
+      // Update form questions order because the response from backend might not include them in correct order if not handled
+      updated.questions = form.questions; 
+      
       setForm(updated);
-      toast.success(updated.status === 'published' ? 'Form published!' : 'Form unpublished');
+      toast.success(updated.status === 'published' ? 'Form published successfully!' : 'Form unpublished');
     } catch (error) {
       toast.error('Failed to change publish status');
     } finally {
@@ -137,18 +143,26 @@ export default function BuilderPage() {
     }
   };
 
-  if (loading || !form) return <div className="h-screen flex items-center justify-center">Loading builder...</div>;
+  if (loading || !form) return (
+    <div className="h-screen flex flex-col bg-white">
+       <header className="h-14 bg-white border-b border-gray-200 px-6 flex items-center justify-between shrink-0"></header>
+       <div className="flex-1 flex items-center justify-center">
+         <div className="w-8 h-8 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+       </div>
+    </div>
+  );
 
   const activeQuestion = form.questions.find(q => q.id === activeQuestionId);
 
   return (
-    <div className="h-screen flex flex-col bg-gray-50 overflow-hidden">
+    <div className="h-[calc(100vh-64px)] flex flex-col bg-[#F9FAFB] overflow-hidden -mt-8 -mx-4 sm:-mx-6 lg:-mx-8">
       {/* Builder Header */}
-      <header className="h-14 bg-white border-b border-gray-200 px-4 flex items-center justify-between shrink-0">
+      <header className="h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between shrink-0 z-10 shadow-sm">
         <div className="flex items-center gap-4">
-          <Link href="/dashboard" className="text-gray-500 hover:text-gray-900 transition-colors">
+          <Link href="/dashboard" className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500 transition-colors">
             <ArrowLeft className="w-5 h-5" />
           </Link>
+          <div className="h-4 w-px bg-gray-300 hidden sm:block"></div>
           <input
             type="text"
             value={form.title}
@@ -158,30 +172,47 @@ export default function BuilderPage() {
             onBlur={(e) => {
               formsApi.updateForm(form.id, { title: e.target.value });
             }}
-            className="font-medium text-gray-900 bg-transparent border-none focus:ring-0 focus:outline-none placeholder-gray-400"
+            className="font-semibold text-gray-900 bg-transparent border-none focus:ring-2 focus:ring-indigo-100 focus:outline-none placeholder-gray-400 rounded px-2 py-1 transition-all"
             placeholder="Form Title"
           />
         </div>
         
         <div className="flex items-center gap-3">
+          <div className="hidden md:flex bg-gray-100 p-1 rounded-lg">
+            <button 
+              onClick={() => setPreviewMode('desktop')}
+              className={`p-1.5 rounded-md transition-colors ${previewMode === 'desktop' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}
+            >
+              <Monitor className="w-4 h-4" />
+            </button>
+            <button 
+              onClick={() => setPreviewMode('mobile')}
+              className={`p-1.5 rounded-md transition-colors ${previewMode === 'mobile' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}
+            >
+              <Smartphone className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="h-4 w-px bg-gray-300 hidden sm:block mx-2"></div>
+
           {form.status === 'published' && form.public_slug && (
             <button 
               onClick={() => {
                 navigator.clipboard.writeText(`${window.location.origin}/form/${form.public_slug}`);
                 toast.success('Link copied to clipboard!');
               }}
-              className="text-sm text-gray-600 hover:text-gray-900 flex items-center gap-1 bg-gray-100 px-3 py-1.5 rounded-md"
+              className="text-sm font-medium text-gray-700 hover:text-gray-900 flex items-center gap-1.5 bg-gray-100 px-3 py-2 rounded-lg transition-colors border border-gray-200"
             >
-              <Check className="w-4 h-4" /> Copy Link
+              <Globe className="w-4 h-4" /> Share
             </button>
           )}
           <button
             onClick={handlePublish}
             disabled={saving}
-            className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors flex items-center gap-2 ${
+            className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 shadow-sm ${
               form.status === 'published' 
-                ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' 
-                : 'bg-indigo-600 text-white hover:bg-indigo-700'
+                ? 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50' 
+                : 'bg-gray-900 text-white hover:bg-gray-800'
             }`}
           >
             {form.status === 'published' ? 'Unpublish' : 'Publish'}
@@ -195,13 +226,15 @@ export default function BuilderPage() {
         <Sidebar onAddQuestion={handleAddQuestion} />
 
         {/* Center Canvas - Form Preview/Reordering */}
-        <Canvas 
-          form={form} 
-          activeQuestionId={activeQuestionId}
-          onSelectQuestion={setActiveQuestionId}
-          onDeleteQuestion={handleDeleteQuestion}
-          onReorder={handleReorder}
-        />
+        <div className="flex-1 bg-[#F3F4F6] overflow-hidden flex flex-col relative">
+           <Canvas 
+            form={form} 
+            activeQuestionId={activeQuestionId}
+            onSelectQuestion={setActiveQuestionId}
+            onDeleteQuestion={handleDeleteQuestion}
+            onReorder={handleReorder}
+          />
+        </div>
 
         {/* Right Sidebar - Settings */}
         <SettingsPanel 

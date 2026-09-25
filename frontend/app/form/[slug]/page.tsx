@@ -18,30 +18,30 @@ export default function PublicFormPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [direction, setDirection] = useState(1);
   const inputRef = useRef<any>(null);
 
   useEffect(() => {
     loadForm();
   }, [slug]);
 
-  // Focus input when question changes
   useEffect(() => {
     if (inputRef.current && !submitted) {
-      setTimeout(() => inputRef.current?.focus(), 100);
+      setTimeout(() => {
+        if (inputRef.current) inputRef.current.focus();
+      }, 300);
     }
   }, [currentIdx, submitted]);
 
-  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Enter' && !e.shiftKey) {
-        // Only trigger next on enter for certain inputs, or if explicitly handled by input component
         if (form && currentIdx < form.questions.length) {
-            const q = form.questions[currentIdx];
-            if (q.type !== 'long_text') {
-                e.preventDefault();
-                handleNext();
-            }
+          const q = form.questions[currentIdx];
+          if (q.type !== 'long_text') {
+            e.preventDefault();
+            handleNext();
+          }
         }
       }
     };
@@ -52,7 +52,6 @@ export default function PublicFormPage() {
   const loadForm = async () => {
     try {
       const data = await publicApi.getFormBySlug(slug);
-      // Sort questions by position
       data.questions.sort((a, b) => a.position - b.position);
       setForm(data);
     } catch (err) {
@@ -68,21 +67,21 @@ export default function PublicFormPage() {
     const val = answers[q.id];
     
     if (q.required && (!val || val.trim() === '')) {
-      toast.error('This question is required');
+      toast.error('This question is required', { position: 'top-center' });
       return false;
     }
 
     if (val && q.type === 'email') {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(val)) {
-        toast.error('Please enter a valid email');
+        toast.error('Please enter a valid email', { position: 'top-center' });
         return false;
       }
     }
 
     if (val && q.type === 'number') {
       if (isNaN(Number(val))) {
-        toast.error('Please enter a valid number');
+        toast.error('Please enter a valid number', { position: 'top-center' });
         return false;
       }
     }
@@ -93,6 +92,7 @@ export default function PublicFormPage() {
   const handleNext = () => {
     if (validateCurrent()) {
       if (form && currentIdx < form.questions.length - 1) {
+        setDirection(1);
         setCurrentIdx(prev => prev + 1);
       } else {
         handleSubmit();
@@ -102,6 +102,7 @@ export default function PublicFormPage() {
 
   const handlePrev = () => {
     if (currentIdx > 0) {
+      setDirection(-1);
       setCurrentIdx(prev => prev - 1);
     }
   };
@@ -116,46 +117,69 @@ export default function PublicFormPage() {
         }))
       };
       await publicApi.submitResponse(slug, payload);
+      setDirection(1);
       setSubmitted(true);
     } catch (error) {
       toast.error('Failed to submit response');
     }
   };
 
-  if (loading) return <div className="h-screen bg-gray-50 flex items-center justify-center">Loading...</div>;
+  const handleAutoAdvance = () => {
+    setTimeout(() => {
+      handleNext();
+    }, 400);
+  };
+
+  if (loading) return (
+    <div className="h-screen bg-[#FBFBFA] flex items-center justify-center">
+      <div className="w-8 h-8 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+    </div>
+  );
   
-  if (error || !form) {
-    return (
-      <div className="h-screen bg-gray-50 flex items-center justify-center p-6 text-center">
-        <div className="max-w-md w-full">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Oops!</h1>
-          <p className="text-gray-600">{error || 'Something went wrong.'}</p>
+  if (error || !form) return (
+    <div className="h-screen bg-[#FBFBFA] flex items-center justify-center p-6 text-center">
+      <div className="max-w-md w-full">
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">Oops!</h1>
+        <p className="text-gray-600">{error || 'Something went wrong.'}</p>
+      </div>
+    </div>
+  );
+
+  if (form.questions.length === 0) return (
+    <div className="h-screen bg-[#FBFBFA] flex items-center justify-center text-gray-500">
+      This form has no questions yet.
+    </div>
+  );
+
+  if (submitted) return (
+    <div className="h-screen bg-[#FBFBFA] flex flex-col items-center justify-center p-6 text-center">
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.8, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ type: 'spring', damping: 20, stiffness: 100 }}
+        className="max-w-md w-full"
+      >
+        <div className="w-20 h-20 bg-indigo-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-xl">
+          <Check className="w-10 h-10" />
         </div>
-      </div>
-    );
-  }
-
-  if (form.questions.length === 0) {
-    return <div className="h-screen bg-gray-50 flex items-center justify-center">This form has no questions yet.</div>;
-  }
-
-  if (submitted) {
-    return (
-      <div className="h-screen bg-gray-50 flex items-center justify-center p-6 text-center">
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="max-w-md w-full bg-white p-8 rounded-2xl shadow-sm border border-gray-100"
-        >
-          <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Check className="w-8 h-8" />
-          </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Thank You!</h1>
-          <p className="text-gray-600">Your response has been recorded.</p>
-        </motion.div>
-      </div>
-    );
-  }
+        <h1 className="text-4xl font-bold text-gray-900 mb-4 tracking-tight">Thank you! 🎉</h1>
+        <p className="text-xl text-gray-600 mb-12">Your response has been submitted successfully.</p>
+        
+        <div className="inline-flex items-center justify-center gap-2 text-sm font-medium text-gray-400 bg-gray-100 px-4 py-2 rounded-full">
+          Powered by 
+          <span className="text-gray-900 flex items-center gap-1">
+            <div className="grid grid-cols-2 gap-0.5 w-3 h-3">
+              <div className="bg-gray-900 rounded-[1px]"></div>
+              <div className="bg-gray-900 rounded-[1px] opacity-70"></div>
+              <div className="bg-gray-900 rounded-[1px] opacity-40"></div>
+              <div className="bg-gray-900 rounded-[1px] opacity-90"></div>
+            </div>
+            FormFlow
+          </span>
+        </div>
+      </motion.div>
+    </div>
+  );
 
   const question = form.questions[currentIdx];
   const isLast = currentIdx === form.questions.length - 1;
@@ -165,30 +189,48 @@ export default function PublicFormPage() {
     setAnswers(prev => ({ ...prev, [question.id]: val }));
   };
 
+  const slideVariants = {
+    enter: (direction: number) => ({
+      y: direction > 0 ? 50 : -50,
+      opacity: 0
+    }),
+    center: {
+      y: 0,
+      opacity: 1
+    },
+    exit: (direction: number) => ({
+      y: direction < 0 ? 50 : -50,
+      opacity: 0
+    })
+  };
+
   return (
-    <div className="h-screen bg-white flex flex-col font-sans">
+    <div className="h-screen bg-[#FBFBFA] flex flex-col font-sans overflow-hidden">
       {/* Progress Bar */}
-      <div className="h-1 w-full bg-gray-100 fixed top-0 z-50">
-        <div 
-          className="h-full bg-indigo-600 transition-all duration-500 ease-out"
-          style={{ width: `${progress}%` }}
+      <div className="h-1.5 w-full bg-gray-100 fixed top-0 z-50">
+        <motion.div 
+          className="h-full bg-indigo-600 rounded-r-full"
+          initial={{ width: 0 }}
+          animate={{ width: `${progress}%` }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
         />
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center p-6 sm:p-12 max-w-4xl mx-auto w-full relative">
-        <AnimatePresence mode="wait">
+      <div className="flex-1 flex flex-col items-center justify-center p-6 sm:p-12 max-w-3xl mx-auto w-full relative">
+        <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={question.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="w-full"
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full pb-32"
           >
-            <div className="flex items-center gap-4 mb-6">
-              <span className="text-indigo-600 font-bold flex items-center gap-1">
-                {currentIdx + 1}
-                <span className="text-indigo-300">→</span>
+            <div className="flex items-start gap-4 mb-4">
+              <span className="text-indigo-600 font-bold text-xl sm:text-2xl pt-1 flex items-center gap-2">
+                {currentIdx + 1} <ArrowRightIcon className="w-5 h-5 text-indigo-300" />
               </span>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-gray-900 leading-tight">
                 {question.title}
@@ -197,56 +239,67 @@ export default function PublicFormPage() {
             </div>
             
             {question.description && (
-              <p className="text-lg text-gray-500 mb-8 ml-10">
+              <p className="text-lg sm:text-xl text-gray-500 mb-8 sm:ml-[3.25rem]">
                 {question.description}
               </p>
             )}
 
-            <div className="ml-10 mt-8">
+            <div className="mt-8 sm:ml-[3.25rem]">
               <QuestionInput 
                 question={question} 
                 value={answers[question.id] || ''} 
                 onChange={handleAnswerChange}
                 onEnter={handleNext}
                 inputRef={inputRef}
+                autoAdvance={handleAutoAdvance}
               />
             </div>
             
-            <div className="ml-10 mt-12">
+            <div className="mt-10 sm:ml-[3.25rem] flex items-center gap-4">
               <button
                 onClick={handleNext}
-                className="bg-indigo-600 text-white px-6 py-3 rounded-md font-semibold text-lg hover:bg-indigo-700 transition-colors flex items-center gap-2"
+                className="bg-indigo-600 text-white px-8 py-3.5 rounded-lg font-semibold text-lg hover:bg-indigo-700 transition-all hover:shadow-lg active:scale-95 flex items-center gap-2"
               >
                 {isLast ? 'Submit' : 'OK'} <Check className="w-5 h-5" />
               </button>
               {!isLast && (
-                 <p className="text-xs text-gray-400 mt-3 font-medium">press <span className="font-bold text-gray-500">Enter ↵</span></p>
+                 <span className="text-xs text-gray-400 font-medium hidden sm:inline-block">
+                   press <strong className="text-gray-500">Enter ↵</strong>
+                 </span>
               )}
             </div>
           </motion.div>
         </AnimatePresence>
+      </div>
 
-        {/* Navigation Controls */}
-        <div className="fixed bottom-6 right-6 flex flex-col gap-2">
-          <div className="bg-gray-800 text-white rounded-md flex overflow-hidden shadow-lg">
-            <button 
-              onClick={handlePrev} 
-              disabled={currentIdx === 0}
-              className="p-2 hover:bg-gray-700 disabled:opacity-50 transition-colors"
-            >
-              <ChevronUp className="w-5 h-5" />
-            </button>
-            <div className="w-px bg-gray-700"></div>
-            <button 
-              onClick={handleNext} 
-              className="p-2 hover:bg-gray-700 transition-colors"
-            >
-              <ChevronDown className="w-5 h-5" />
-            </button>
-          </div>
+      {/* Navigation Controls */}
+      <div className="fixed bottom-0 right-0 p-6 flex flex-col items-end pointer-events-none">
+        <div className="pointer-events-auto bg-gray-900 text-white rounded-lg flex overflow-hidden shadow-xl">
+          <button 
+            onClick={handlePrev} 
+            disabled={currentIdx === 0}
+            className="px-3 py-2.5 hover:bg-gray-800 disabled:opacity-50 transition-colors"
+          >
+            <ChevronUp className="w-6 h-6" />
+          </button>
+          <div className="w-px bg-gray-700"></div>
+          <button 
+            onClick={handleNext} 
+            className="px-3 py-2.5 hover:bg-gray-800 transition-colors"
+          >
+            <ChevronDown className="w-6 h-6" />
+          </button>
         </div>
       </div>
     </div>
+  );
+}
+
+function ArrowRightIcon(props: any) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+    </svg>
   );
 }
 
@@ -255,15 +308,17 @@ function QuestionInput({
   value, 
   onChange,
   onEnter,
-  inputRef 
+  inputRef,
+  autoAdvance
 }: { 
   question: Question, 
   value: string, 
   onChange: (v: string) => void,
   onEnter: () => void,
-  inputRef: any
+  inputRef: any,
+  autoAdvance: () => void
 }) {
-  const commonClasses = "w-full text-xl sm:text-2xl border-b-2 border-indigo-200 focus:border-indigo-600 bg-transparent py-2 outline-none transition-colors placeholder-gray-300 text-gray-900";
+  const commonClasses = "w-full text-2xl sm:text-3xl text-indigo-900 border-b-[3px] border-indigo-200 focus:border-indigo-600 bg-transparent py-2 outline-none transition-colors placeholder-indigo-200/50";
 
   switch (question.type) {
     case 'short_text':
@@ -299,7 +354,7 @@ function QuestionInput({
           onChange={e => onChange(e.target.value)}
           placeholder="Type your answer here..."
           rows={3}
-          className={`${commonClasses} resize-none`}
+          className={`${commonClasses} text-xl sm:text-2xl resize-none`}
         />
       );
     
@@ -309,29 +364,29 @@ function QuestionInput({
         <div className="space-y-3">
           {(question.settings.options || []).map((opt: string, idx: number) => {
             const isSelected = value === opt;
-            const letter = String.fromCharCode(65 + idx); // A, B, C...
+            const letter = String.fromCharCode(65 + idx);
             return (
               <button
                 key={idx}
                 onClick={() => {
                   onChange(opt);
-                  // Optional: Auto advance on selection for multiple choice
-                  // setTimeout(onEnter, 300);
+                  autoAdvance();
                 }}
-                className={`w-full max-w-md text-left px-4 py-3 rounded-md border-2 transition-all flex items-center gap-4 group ${
+                className={`w-full max-w-md text-left px-5 py-4 rounded-xl border-2 transition-all flex items-center gap-5 group ${
                   isSelected 
-                    ? 'border-indigo-600 bg-indigo-50/50' 
-                    : 'border-gray-200 bg-white hover:bg-gray-50'
+                    ? 'border-indigo-600 bg-indigo-50 shadow-[0_0_0_1px_rgba(79,70,229,1)]' 
+                    : 'border-gray-200 bg-white hover:border-indigo-200 hover:bg-indigo-50/30'
                 }`}
               >
-                <span className={`w-6 h-6 rounded flex items-center justify-center text-sm font-semibold border ${
-                  isSelected ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-gray-500 border-gray-300 group-hover:bg-gray-100'
+                <span className={`w-7 h-7 rounded flex items-center justify-center text-sm font-bold border transition-colors ${
+                  isSelected ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-indigo-600 border-indigo-200 group-hover:border-indigo-400'
                 }`}>
                   {letter}
                 </span>
-                <span className={`text-lg ${isSelected ? 'text-indigo-900 font-medium' : 'text-gray-700'}`}>
+                <span className={`text-lg sm:text-xl ${isSelected ? 'text-indigo-900 font-medium' : 'text-gray-700'}`}>
                   {opt}
                 </span>
+                {isSelected && <Check className="w-5 h-5 text-indigo-600 ml-auto" />}
               </button>
             );
           })}
@@ -340,26 +395,29 @@ function QuestionInput({
     
     case 'yes_no':
       return (
-        <div className="flex gap-4">
+        <div className="flex gap-4 flex-col sm:flex-row max-w-md">
           {['Yes', 'No'].map(opt => {
             const isSelected = value === opt;
             const letter = opt === 'Yes' ? 'Y' : 'N';
             return (
               <button
                 key={opt}
-                onClick={() => onChange(opt)}
-                className={`flex-1 max-w-[200px] text-center px-4 py-6 rounded-md border-2 transition-all flex flex-col items-center gap-2 group ${
+                onClick={() => {
+                  onChange(opt);
+                  autoAdvance();
+                }}
+                className={`flex-1 text-center px-6 py-8 rounded-xl border-2 transition-all flex flex-col items-center gap-3 group ${
                   isSelected 
-                    ? 'border-indigo-600 bg-indigo-50/50' 
-                    : 'border-gray-200 bg-white hover:bg-gray-50'
+                    ? 'border-indigo-600 bg-indigo-50 shadow-[0_0_0_1px_rgba(79,70,229,1)]' 
+                    : 'border-gray-200 bg-white hover:border-indigo-200 hover:bg-indigo-50/30'
                 }`}
               >
-                 <span className={`w-8 h-8 rounded flex items-center justify-center text-sm font-semibold border ${
-                  isSelected ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-gray-500 border-gray-300 group-hover:bg-gray-100'
+                 <span className={`w-8 h-8 rounded flex items-center justify-center text-sm font-bold border transition-colors ${
+                  isSelected ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-indigo-600 border-indigo-200 group-hover:border-indigo-400'
                 }`}>
                   {letter}
                 </span>
-                <span className={`text-xl ${isSelected ? 'text-indigo-900 font-medium' : 'text-gray-700'}`}>
+                <span className={`text-2xl ${isSelected ? 'text-indigo-900 font-medium' : 'text-gray-700'}`}>
                   {opt}
                 </span>
               </button>
@@ -371,18 +429,21 @@ function QuestionInput({
     case 'rating':
       const max = question.settings.max || 5;
       return (
-        <div className="flex gap-2 flex-wrap">
+        <div className="flex gap-3 flex-wrap">
           {Array.from({ length: max }).map((_, idx) => {
             const val = (idx + 1).toString();
             const isSelected = value === val;
             return (
               <button
                 key={idx}
-                onClick={() => onChange(val)}
-                className={`w-12 h-14 rounded-md border-2 transition-all flex items-center justify-center text-xl font-medium ${
+                onClick={() => {
+                  onChange(val);
+                  autoAdvance();
+                }}
+                className={`w-14 h-16 sm:w-16 sm:h-20 rounded-xl border-2 transition-all flex flex-col items-center justify-center text-2xl font-medium group ${
                   isSelected 
-                    ? 'border-indigo-600 bg-indigo-600 text-white' 
-                    : 'border-gray-200 bg-white text-gray-600 hover:border-indigo-300'
+                    ? 'border-indigo-600 bg-indigo-600 text-white shadow-lg shadow-indigo-600/20' 
+                    : 'border-gray-200 bg-white text-gray-600 hover:border-indigo-300 hover:bg-indigo-50/50'
                 }`}
               >
                 {val}
