@@ -20,7 +20,7 @@ export default function Sidebar({ onAddQuestion }: { onAddQuestion: (type: strin
   return (
     <div className="w-72 bg-card-bg border-r border-border-soft shrink-0 flex flex-col z-10 shadow-sm relative">
       <div className="p-5 border-b border-border-soft flex items-center justify-between">
-        <h3 className="font-semibold text-ink-dark">Blocks</h3>
+        <h3 className="font-semibold text-text-primary">Blocks</h3>
       </div>
       <div className="flex-1 overflow-y-auto p-4">
         <p className="text-xs font-semibold text-text-secondary/70 uppercase tracking-wider mb-3 px-1">Question Types</p>
@@ -31,7 +31,7 @@ export default function Sidebar({ onAddQuestion }: { onAddQuestion: (type: strin
               <button
                 key={type.id}
                 onClick={() => onAddQuestion(type.id)}
-                className="group flex flex-col items-center justify-center p-4 gap-3 rounded-xl border border-border-soft hover:border-primary hover:bg-purple-light hover:shadow-md transition-all bg-card-bg text-text-secondary hover:text-primary-dark relative overflow-hidden"
+                className="group flex flex-col items-center justify-center p-4 gap-3 rounded-xl border border-border-soft hover:border-primary hover:bg-purple-light hover:shadow-md transition-all bg-card-bg text-text-secondary hover:text-primary-hover relative overflow-hidden"
               >
                 <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity">
                    <Plus className="w-3 h-3 text-primary" />

@@ -42,18 +42,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     <div className="bg-card-bg rounded-sm opacity-90"></div>
                   </div>
                 </div>
-                <span className="font-bold text-xl tracking-tight text-ink-dark">FormFlow</span>
+                <span className="font-bold text-xl tracking-tight text-text-primary">FormFlow</span>
               </Link>
               
               {/* Nav Links */}
               <nav className="hidden md:flex space-x-1">
-                <Link href="/dashboard" className="px-3 py-2 rounded-md text-sm font-medium text-ink-dark bg-purple-light">
+                <Link href="/dashboard" className="px-3 py-2 rounded-md text-sm font-medium text-text-primary bg-purple-light">
                   Forms
                 </Link>
-                <Link href="/dashboard" className="px-3 py-2 rounded-md text-sm font-medium text-text-secondary hover:text-ink-dark hover:bg-gray-50 transition-colors">
+                <Link href="/dashboard" className="px-3 py-2 rounded-md text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-card-elevated transition-colors">
                   Responses
                 </Link>
-                <Link href="/dashboard" className="px-3 py-2 rounded-md text-sm font-medium text-text-secondary hover:text-ink-dark hover:bg-gray-50 transition-colors">
+                <Link href="/dashboard" className="px-3 py-2 rounded-md text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-card-elevated transition-colors">
                   Templates
                 </Link>
               </nav>
@@ -61,14 +61,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
             <div className="flex items-center gap-4">
               <ThemeToggle />
-              <button className="text-text-secondary hover:text-ink-dark transition-colors">
+              <button className="text-text-secondary hover:text-text-primary transition-colors">
                 <HelpCircle className="w-5 h-5" />
               </button>
-              <button className="text-text-secondary hover:text-ink-dark transition-colors">
+              <button className="text-text-secondary hover:text-text-primary transition-colors">
                 <Bell className="w-5 h-5" />
               </button>
               <div className="h-8 w-8 rounded-full bg-purple-light flex items-center justify-center border border-purple-lavender cursor-pointer">
-                <span className="text-sm font-medium text-primary-dark">DC</span>
+                <span className="text-sm font-medium text-primary-hover">DC</span>
               </div>
             </div>
           </div>

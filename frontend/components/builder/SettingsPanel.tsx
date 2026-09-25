@@ -14,7 +14,7 @@ export default function SettingsPanel({
     return (
       <div className="w-80 bg-card-bg border-l border-border-soft shrink-0 flex flex-col h-full z-10 shadow-sm">
         <div className="p-5 border-b border-border-soft">
-           <h3 className="font-semibold text-ink-dark flex items-center gap-2">
+           <h3 className="font-semibold text-text-primary flex items-center gap-2">
              <Settings className="w-4 h-4" /> Settings
            </h3>
         </div>
@@ -22,7 +22,7 @@ export default function SettingsPanel({
           <div className="w-16 h-16 bg-card-bg rounded-2xl flex items-center justify-center mb-4 border border-border-soft shadow-sm">
             <Settings className="w-8 h-8 text-border-soft" />
           </div>
-          <p className="text-sm font-medium text-ink-dark mb-1">No question selected</p>
+          <p className="text-sm font-medium text-text-primary mb-1">No question selected</p>
           <p className="text-sm text-text-secondary/70">Select a question to edit its properties</p>
         </div>
       </div>
@@ -49,7 +49,7 @@ export default function SettingsPanel({
   return (
     <div className="w-80 bg-card-bg border-l border-border-soft shrink-0 flex flex-col h-full z-10 shadow-sm relative">
       <div className="p-5 border-b border-border-soft flex items-center justify-between">
-        <h3 className="font-semibold text-ink-dark flex items-center gap-2">
+        <h3 className="font-semibold text-text-primary flex items-center gap-2">
            <Settings className="w-4 h-4 text-primary" /> Block Settings
         </h3>
         <span className="text-xs font-semibold bg-purple-light text-text-secondary px-2 py-1 rounded uppercase tracking-wider">
@@ -61,7 +61,7 @@ export default function SettingsPanel({
         {/* Basic Settings */}
         <div className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-ink-dark mb-2">Question Title</label>
+            <label className="block text-sm font-medium text-text-primary mb-2">Question Title</label>
             <textarea
               value={question.title}
               onChange={(e) => onUpdate(question.id, { title: e.target.value })}
@@ -72,7 +72,7 @@ export default function SettingsPanel({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-ink-dark mb-2">Description (Optional)</label>
+            <label className="block text-sm font-medium text-text-primary mb-2">Description (Optional)</label>
             <textarea
               value={question.description || ''}
               onChange={(e) => onUpdate(question.id, { description: e.target.value })}
@@ -84,7 +84,7 @@ export default function SettingsPanel({
 
           <div className="flex items-center justify-between p-4 rounded-xl border border-border-soft bg-card-bg shadow-sm">
             <div>
-              <label className="text-sm font-semibold text-ink-dark block">Required</label>
+              <label className="text-sm font-semibold text-text-primary block">Required</label>
               <span className="text-xs text-text-secondary/70">Prevent skipping</span>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
@@ -94,7 +94,7 @@ export default function SettingsPanel({
                 onChange={(e) => onUpdate(question.id, { required: e.target.checked })}
                 className="sr-only peer"
               />
-              <div className="w-11 h-6 bg-border-soft peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-light rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-card-bg after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+              <div className="w-11 h-6 bg-border-soft peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-light rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-card-bg after:border-border-strong after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
             </label>
           </div>
         </div>
@@ -103,7 +103,7 @@ export default function SettingsPanel({
         {(question.type === 'multiple_choice' || question.type === 'dropdown') && (
           <div className="pt-6 border-t border-border-soft">
             <div className="flex items-center justify-between mb-4">
-              <label className="block text-sm font-semibold text-ink-dark">Choices</label>
+              <label className="block text-sm font-semibold text-text-primary">Choices</label>
             </div>
             <div className="space-y-3">
               {(question.settings.options || []).map((opt: string, i: number) => (
@@ -134,7 +134,7 @@ export default function SettingsPanel({
 
         {question.type === 'rating' && (
           <div className="pt-6 border-t border-border-soft">
-            <label className="block text-sm font-semibold text-ink-dark mb-2">Scale Range</label>
+            <label className="block text-sm font-semibold text-text-primary mb-2">Scale Range</label>
             <div className="flex items-center gap-3">
               <span className="text-sm text-text-secondary/70">1 to</span>
               <select

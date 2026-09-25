@@ -51,7 +51,7 @@ export default function IndividualResponsePage() {
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-ink-dark">Response #{response.id.substring(0, 8)}</h1>
+          <h1 className="text-2xl font-bold text-text-primary">Response #{response.id.substring(0, 8)}</h1>
           <p className="text-sm text-text-secondary flex items-center gap-2 mt-1">
             <FileText className="w-4 h-4" /> {form.title}
           </p>
@@ -62,7 +62,7 @@ export default function IndividualResponsePage() {
         {/* Top Info */}
         <div className="bg-purple-light/30 p-6 border-b border-border-soft flex items-center gap-3">
            <Calendar className="w-5 h-5 text-primary" />
-           <span className="text-ink-dark font-medium">Submitted:</span>
+           <span className="text-text-primary font-medium">Submitted:</span>
            <span className="text-text-secondary">{new Date(response.submitted_at).toLocaleString(undefined, {
              weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'
            })}</span>
@@ -92,11 +92,11 @@ export default function IndividualResponsePage() {
                     {Array.from({ length: max }).map((_, i) => (
                       <Star key={i} className={`w-6 h-6 ${i < rating ? 'text-primary fill-primary' : 'text-border-soft'}`} />
                     ))}
-                    <span className="ml-2 font-medium text-ink-dark text-lg">{rating}/{max}</span>
+                    <span className="ml-2 font-medium text-text-primary text-lg">{rating}/{max}</span>
                   </div>
                 );
               } else {
-                displayValue = <span className="text-xl text-ink-dark font-medium whitespace-pre-wrap">{value}</span>;
+                displayValue = <span className="text-xl text-text-primary font-medium whitespace-pre-wrap">{value}</span>;
               }
             }
             

@@ -139,7 +139,7 @@ export default function PublicFormPage() {
   if (error || !form) return (
     <div className="h-screen bg-page-bg flex items-center justify-center p-6 text-center">
       <div className="max-w-md w-full">
-        <h1 className="text-2xl font-bold text-ink-dark mb-2">Oops!</h1>
+        <h1 className="text-2xl font-bold text-text-primary mb-2">Oops!</h1>
         <p className="text-text-secondary">{error || 'Something went wrong.'}</p>
       </div>
     </div>
@@ -162,17 +162,17 @@ export default function PublicFormPage() {
         <div className="w-20 h-20 bg-primary text-white rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-xl">
           <Check className="w-10 h-10" />
         </div>
-        <h1 className="text-4xl font-bold text-ink-dark mb-4 tracking-tight">Thank you! 🎉</h1>
+        <h1 className="text-4xl font-bold text-text-primary mb-4 tracking-tight">Thank you! 🎉</h1>
         <p className="text-xl text-text-secondary mb-12">Your response has been submitted successfully.</p>
         
         <div className="inline-flex items-center justify-center gap-2 text-sm font-medium text-text-secondary/60 bg-border-soft px-4 py-2 rounded-full">
           Powered by 
-          <span className="text-ink-dark flex items-center gap-1">
+          <span className="text-text-primary flex items-center gap-1">
             <div className="grid grid-cols-2 gap-0.5 w-3 h-3">
-              <div className="bg-ink-dark rounded-[1px]"></div>
-              <div className="bg-ink-dark rounded-[1px] opacity-70"></div>
-              <div className="bg-ink-dark rounded-[1px] opacity-40"></div>
-              <div className="bg-ink-dark rounded-[1px] opacity-90"></div>
+              <div className="bg-text-primary rounded-[1px]"></div>
+              <div className="bg-text-primary rounded-[1px] opacity-70"></div>
+              <div className="bg-text-primary rounded-[1px] opacity-40"></div>
+              <div className="bg-text-primary rounded-[1px] opacity-90"></div>
             </div>
             FormFlow
           </span>
@@ -232,7 +232,7 @@ export default function PublicFormPage() {
               <span className="text-primary font-bold text-xl sm:text-2xl pt-1 flex items-center gap-2">
                 {currentIdx + 1} <ArrowRightIcon className="w-5 h-5 text-primary/50" />
               </span>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-ink-dark leading-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-text-primary leading-tight">
                 {question.title}
                 {question.required && <span className="text-red-500 ml-2">*</span>}
               </h2>
@@ -274,7 +274,7 @@ export default function PublicFormPage() {
 
       {/* Navigation Controls */}
       <div className="fixed bottom-0 right-0 p-6 flex flex-col items-end pointer-events-none">
-        <div className="pointer-events-auto bg-ink-dark text-white rounded-lg flex overflow-hidden shadow-xl">
+        <div className="pointer-events-auto bg-inverted-bg text-inverted-text rounded-lg flex overflow-hidden shadow-xl">
           <button 
             onClick={handlePrev} 
             disabled={currentIdx === 0}
@@ -318,7 +318,7 @@ function QuestionInput({
   inputRef: any,
   autoAdvance: () => void
 }) {
-  const commonClasses = "w-full text-2xl sm:text-3xl text-ink-dark border-b-[3px] border-purple-lavender focus:border-primary bg-transparent py-2 outline-none transition-colors placeholder-indigo-200/50";
+  const commonClasses = "w-full text-2xl sm:text-3xl text-text-primary border-b-[3px] border-purple-lavender focus:border-primary bg-transparent py-2 outline-none transition-colors placeholder-text-muted/50";
 
   switch (question.type) {
     case 'short_text':
@@ -383,7 +383,7 @@ function QuestionInput({
                 }`}>
                   {letter}
                 </span>
-                <span className={`text-lg sm:text-xl ${isSelected ? 'text-ink-dark font-medium' : 'text-gray-700'}`}>
+                <span className={`text-lg sm:text-xl ${isSelected ? 'text-text-primary font-medium' : 'text-text-secondary'}`}>
                   {opt}
                 </span>
                 {isSelected && <Check className="w-5 h-5 text-primary ml-auto" />}
@@ -417,7 +417,7 @@ function QuestionInput({
                 }`}>
                   {letter}
                 </span>
-                <span className={`text-2xl ${isSelected ? 'text-ink-dark font-medium' : 'text-gray-700'}`}>
+                <span className={`text-2xl ${isSelected ? 'text-text-primary font-medium' : 'text-text-secondary'}`}>
                   {opt}
                 </span>
               </button>

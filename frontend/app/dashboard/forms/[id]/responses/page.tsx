@@ -57,20 +57,20 @@ export default function ResponsesPage() {
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <div>
-            <h1 className="text-2xl font-bold text-ink-dark">{form.title}</h1>
+            <h1 className="text-2xl font-bold text-text-primary">{form.title}</h1>
             <p className="text-sm text-text-secondary">Analyze your collected data</p>
           </div>
         </div>
         <div className="flex bg-card-bg rounded-lg p-1 shadow-sm border border-border-soft">
           <button 
             onClick={() => setActiveTab('summary')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === 'summary' ? 'bg-purple-light text-primary-dark' : 'text-text-secondary hover:text-ink-dark hover:bg-page-bg'}`}
+            className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === 'summary' ? 'bg-purple-light text-primary-hover' : 'text-text-secondary hover:text-text-primary hover:bg-page-bg'}`}
           >
             <BarChart3 className="w-4 h-4" /> Summary
           </button>
           <button 
             onClick={() => setActiveTab('responses')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === 'responses' ? 'bg-purple-light text-primary-dark' : 'text-text-secondary hover:text-ink-dark hover:bg-page-bg'}`}
+            className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === 'responses' ? 'bg-purple-light text-primary-hover' : 'text-text-secondary hover:text-text-primary hover:bg-page-bg'}`}
           >
             <ListIcon className="w-4 h-4" /> Responses
           </button>
@@ -87,7 +87,7 @@ export default function ResponsesPage() {
               </div>
               <div>
                 <p className="text-sm text-text-secondary font-medium mb-1">Total Responses</p>
-                <p className="text-3xl font-bold text-ink-dark">{responses.length}</p>
+                <p className="text-3xl font-bold text-text-primary">{responses.length}</p>
               </div>
             </div>
             
@@ -97,7 +97,7 @@ export default function ResponsesPage() {
               </div>
               <div>
                 <p className="text-sm text-text-secondary font-medium mb-1">Status</p>
-                <p className="text-xl font-bold text-ink-dark capitalize">{form.status}</p>
+                <p className="text-xl font-bold text-text-primary capitalize">{form.status}</p>
               </div>
             </div>
             
@@ -107,7 +107,7 @@ export default function ResponsesPage() {
               </div>
               <div>
                 <p className="text-sm text-text-secondary font-medium mb-1">Created</p>
-                <p className="text-lg font-bold text-ink-dark">
+                <p className="text-lg font-bold text-text-primary">
                   {new Date(form.created_at).toLocaleDateString()}
                 </p>
               </div>
@@ -115,7 +115,7 @@ export default function ResponsesPage() {
           </div>
 
           {/* Question Summary */}
-          <h2 className="text-xl font-bold text-ink-dark pt-4">Question Breakdown</h2>
+          <h2 className="text-xl font-bold text-text-primary pt-4">Question Breakdown</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {form.questions.map((q, idx) => {
               const qStats = stats?.[q.id];
@@ -124,7 +124,7 @@ export default function ResponsesPage() {
                   <span className="inline-block px-2.5 py-1 bg-purple-light text-text-secondary text-xs font-semibold uppercase tracking-wider rounded mb-4">
                     {q.type.replace('_', ' ')}
                   </span>
-                  <h3 className="font-semibold text-lg text-ink-dark mb-6 leading-snug">
+                  <h3 className="font-semibold text-lg text-text-primary mb-6 leading-snug">
                     {idx + 1}. {q.title}
                   </h3>
                   
@@ -137,8 +137,8 @@ export default function ResponsesPage() {
                             return (
                               <div key={val}>
                                 <div className="flex justify-between text-sm mb-2">
-                                  <span className="text-ink-dark font-medium">{val}</span>
-                                  <span className="text-text-secondary font-medium">{count} <span className="text-gray-400 font-normal">({percent}%)</span></span>
+                                  <span className="text-text-primary font-medium">{val}</span>
+                                  <span className="text-text-secondary font-medium">{count} <span className="text-text-muted font-normal">({percent}%)</span></span>
                                 </div>
                                 <div className="w-full bg-purple-light rounded-full h-2.5 overflow-hidden">
                                   <div className="bg-indigo-600 h-full rounded-full transition-all duration-1000 ease-out" style={{ width: `${percent}%` }}></div>
@@ -157,16 +157,16 @@ export default function ResponsesPage() {
                           </div>
                           <div className="flex-1 bg-page-bg p-4 rounded-xl text-center border border-border-soft">
                             <p className="text-xs text-text-secondary font-medium uppercase tracking-wider mb-1">Min</p>
-                            <p className="text-2xl font-semibold text-ink-dark">{qStats.min || '0'}</p>
+                            <p className="text-2xl font-semibold text-text-primary">{qStats.min || '0'}</p>
                           </div>
                           <div className="flex-1 bg-page-bg p-4 rounded-xl text-center border border-border-soft">
                             <p className="text-xs text-text-secondary font-medium uppercase tracking-wider mb-1">Max</p>
-                            <p className="text-2xl font-semibold text-ink-dark">{qStats.max || '0'}</p>
+                            <p className="text-2xl font-semibold text-text-primary">{qStats.max || '0'}</p>
                           </div>
                         </div>
                       ) : (
                         <div className="bg-page-bg rounded-xl p-6 text-center border border-border-soft text-sm text-text-secondary">
-                          <span className="font-semibold text-ink-dark">{qStats.total}</span> text responses collected.<br/>
+                          <span className="font-semibold text-text-primary">{qStats.total}</span> text responses collected.<br/>
                           Switch to the <strong>Responses</strong> tab to read them.
                         </div>
                       )}
@@ -188,7 +188,7 @@ export default function ResponsesPage() {
               <div className="w-16 h-16 bg-page-bg rounded-full flex items-center justify-center mx-auto mb-4">
                  <ListIcon className="w-8 h-8 text-gray-300" />
               </div>
-              <h3 className="text-lg font-medium text-ink-dark mb-1">No responses yet</h3>
+              <h3 className="text-lg font-medium text-text-primary mb-1">No responses yet</h3>
               <p className="text-text-secondary">Share your form to start collecting data.</p>
             </div>
           ) : (
@@ -209,7 +209,7 @@ export default function ResponsesPage() {
                 <tbody className="divide-y divide-border-soft">
                   {responses.map((response, idx) => (
                     <tr key={response.id} className="hover:bg-page-bg transition-colors cursor-pointer" onClick={() => router.push(`/dashboard/responses/${response.id}`)}>
-                      <td className="px-6 py-4 text-sm font-medium text-ink-dark whitespace-nowrap">
+                      <td className="px-6 py-4 text-sm font-medium text-text-primary whitespace-nowrap">
                         {responses.length - idx}
                       </td>
                       <td className="px-6 py-4 text-sm text-text-secondary whitespace-nowrap">
@@ -218,13 +218,13 @@ export default function ResponsesPage() {
                       {form.questions.slice(0, 3).map((q) => {
                         const answer = response.answers.find(a => a.question_id === q.id);
                         return (
-                          <td key={q.id} className="px-6 py-4 text-sm text-ink-dark truncate max-w-[200px]">
+                          <td key={q.id} className="px-6 py-4 text-sm text-text-primary truncate max-w-[200px]">
                             {answer?.value || '-'}
                           </td>
                         );
                       })}
                       <td className="px-6 py-4 text-sm text-right">
-                        <Link href={`/dashboard/responses/${response.id}`} onClick={(e) => e.stopPropagation()} className="text-primary hover:text-primary-dark font-medium transition-colors">
+                        <Link href={`/dashboard/responses/${response.id}`} onClick={(e) => e.stopPropagation()} className="text-primary hover:text-primary-hover font-medium transition-colors">
                           View
                         </Link>
                       </td>

@@ -86,16 +86,16 @@ export default function Dashboard() {
       {/* Welcome Section */}
       <div className="mb-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 tracking-tight mb-2">
+          <h1 className="text-3xl font-bold text-text-primary tracking-tight mb-2">
             Good afternoon, Creator 👋
           </h1>
-          <p className="text-gray-500 text-lg">
+          <p className="text-text-muted text-lg">
             Create forms that people actually enjoy completing.
           </p>
         </div>
         <button
           onClick={handleCreate}
-          className="bg-gray-900 hover:bg-gray-800 text-white px-5 py-2.5 rounded-lg font-medium transition-colors flex items-center gap-2 shadow-sm"
+          className="bg-inverted-bg hover:bg-inverted-bg text-inverted-text px-5 py-2.5 rounded-lg font-medium transition-colors flex items-center gap-2 shadow-sm"
         >
           <Plus className="w-5 h-5" />
           Create form
@@ -104,17 +104,17 @@ export default function Dashboard() {
 
       {/* Controls */}
       <div className="flex flex-col sm:flex-row gap-4 mb-6 items-center justify-between">
-        <h2 className="text-xl font-semibold text-gray-900">Your forms</h2>
+        <h2 className="text-xl font-semibold text-text-primary">Your forms</h2>
         
         <div className="flex w-full sm:w-auto gap-3">
           <div className="relative flex-1 sm:w-64">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
             <input 
               type="text" 
               placeholder="Search forms..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-shadow"
+              className="w-full pl-9 pr-4 py-2 border border-border-soft rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-shadow"
             />
           </div>
           
@@ -122,28 +122,28 @@ export default function Dashboard() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value as any)}
-              className="appearance-none pl-10 pr-8 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-shadow cursor-pointer"
+              className="appearance-none pl-10 pr-8 py-2 border border-border-soft rounded-lg text-sm bg-card-bg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-shadow cursor-pointer"
             >
               <option value="all">All statuses</option>
               <option value="draft">Drafts</option>
               <option value="published">Published</option>
             </select>
-            <Filter className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <Filter className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
           </div>
         </div>
       </div>
 
       {/* Forms Grid */}
       {filteredForms.length === 0 ? (
-        <div className="text-center py-24 bg-white rounded-2xl border border-dashed border-gray-300">
-          <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <FileText className="w-8 h-8 text-gray-400" />
+        <div className="text-center py-24 bg-card-bg rounded-2xl border border-dashed border-border-strong">
+          <div className="w-16 h-16 bg-card-elevated rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <FileText className="w-8 h-8 text-text-muted" />
           </div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">No forms found</h3>
-          <p className="text-gray-500 mb-6">Create your first form or adjust your filters.</p>
+          <h3 className="text-lg font-semibold text-text-primary mb-2">No forms found</h3>
+          <p className="text-text-muted mb-6">Create your first form or adjust your filters.</p>
           <button
             onClick={handleCreate}
-            className="bg-white border border-gray-200 text-gray-900 px-5 py-2 rounded-lg font-medium hover:bg-gray-50 transition-colors inline-flex items-center gap-2"
+            className="bg-card-bg border border-border-soft text-text-primary px-5 py-2 rounded-lg font-medium hover:bg-card-elevated transition-colors inline-flex items-center gap-2"
           >
             <Plus className="w-4 h-4" />
             Create Form
@@ -160,7 +160,7 @@ export default function Dashboard() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.2 }}
                 key={form.id} 
-                className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all group flex flex-col h-full"
+                className="bg-card-bg rounded-2xl border border-border-soft overflow-hidden hover:shadow-lg transition-all group flex flex-col h-full"
               >
                 <Link href={`/dashboard/forms/${form.id}/edit`} className="flex-1 p-6 flex flex-col cursor-pointer">
                   <div className="flex justify-between items-start mb-6">
@@ -168,12 +168,12 @@ export default function Dashboard() {
                       <FileText className="w-6 h-6" />
                     </div>
                     <div className="relative dropdown group/menu" onClick={e => e.preventDefault()}>
-                      <button className="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors">
+                      <button className="w-8 h-8 rounded-full flex items-center justify-center text-text-muted hover:text-text-secondary hover:bg-card-elevated transition-colors">
                         <MoreVertical className="w-5 h-5" />
                       </button>
-                      <div className="absolute right-0 mt-1 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-1 z-10 hidden group-hover/menu:block">
-                        <button onClick={(e) => handleDuplicate(form.id, e)} className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
-                          <Copy className="w-4 h-4 text-gray-400" /> Duplicate
+                      <div className="absolute right-0 mt-1 w-48 bg-card-bg rounded-xl shadow-xl border border-border-soft py-1 z-10 hidden group-hover/menu:block">
+                        <button onClick={(e) => handleDuplicate(form.id, e)} className="w-full text-left px-4 py-2 text-sm text-text-secondary hover:bg-card-elevated flex items-center gap-2">
+                          <Copy className="w-4 h-4 text-text-muted" /> Duplicate
                         </button>
                         <button onClick={(e) => handleDelete(form.id, e)} className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2">
                           <Trash2 className="w-4 h-4 text-red-400" /> Delete
@@ -182,7 +182,7 @@ export default function Dashboard() {
                     </div>
                   </div>
                   
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 truncate group-hover:text-indigo-600 transition-colors">
+                  <h3 className="text-xl font-bold text-text-primary mb-2 truncate group-hover:text-indigo-600 transition-colors">
                     {form.title}
                   </h3>
                   
@@ -190,26 +190,26 @@ export default function Dashboard() {
                     <span className={`px-2.5 py-1 rounded-md text-xs font-semibold uppercase tracking-wide ${
                       form.status === 'published' 
                         ? 'bg-green-50 text-green-700 border border-green-200' 
-                        : 'bg-gray-100 text-gray-600 border border-gray-200'
+                        : 'bg-card-elevated text-text-secondary border border-border-soft'
                     }`}>
                       {form.status}
                     </span>
-                    <span className="text-sm text-gray-500 font-medium flex items-center gap-1.5">
+                    <span className="text-sm text-text-muted font-medium flex items-center gap-1.5">
                       <div className="w-1.5 h-1.5 rounded-full bg-gray-300"></div>
                       {form.responses_count} {form.responses_count === 1 ? 'response' : 'responses'}
                     </span>
                   </div>
                 </Link>
                 
-                <div className="border-t border-gray-100 p-2 bg-gray-50/50 flex items-center gap-1">
-                  <Link href={`/dashboard/forms/${form.id}/edit`} className="flex-1 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg text-center transition-colors flex items-center justify-center gap-2">
+                <div className="border-t border-border-soft p-2 bg-card-elevated/50 flex items-center gap-1">
+                  <Link href={`/dashboard/forms/${form.id}/edit`} className="flex-1 py-2 text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-card-elevated rounded-lg text-center transition-colors flex items-center justify-center gap-2">
                     <Edit2 className="w-4 h-4" /> Edit
                   </Link>
-                  <Link href={`/dashboard/forms/${form.id}/responses`} className="flex-1 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg text-center transition-colors flex items-center justify-center gap-2">
+                  <Link href={`/dashboard/forms/${form.id}/responses`} className="flex-1 py-2 text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-card-elevated rounded-lg text-center transition-colors flex items-center justify-center gap-2">
                     <BarChart2 className="w-4 h-4" /> Results
                   </Link>
                   {form.status === 'published' && form.public_slug && (
-                    <Link href={`/form/${form.public_slug}`} target="_blank" className="flex-1 py-2 text-sm font-medium text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg text-center transition-colors flex items-center justify-center gap-2">
+                    <Link href={`/form/${form.public_slug}`} target="_blank" className="flex-1 py-2 text-sm font-medium text-text-secondary hover:text-indigo-600 hover:bg-indigo-50 rounded-lg text-center transition-colors flex items-center justify-center gap-2">
                       <ExternalLink className="w-4 h-4" /> View
                     </Link>
                   )}

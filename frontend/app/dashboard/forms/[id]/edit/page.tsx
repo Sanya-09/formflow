@@ -172,7 +172,7 @@ export default function BuilderPage() {
             onBlur={(e) => {
               formsApi.updateForm(form.id, { title: e.target.value });
             }}
-            className="font-semibold text-ink-dark bg-transparent border-none focus:ring-2 focus:ring-indigo-100 focus:outline-none placeholder-gray-400 rounded px-2 py-1 transition-all"
+            className="font-semibold text-text-primary bg-transparent border-none focus:ring-2 focus:ring-indigo-100 focus:outline-none placeholder-text-muted rounded px-2 py-1 transition-all"
             placeholder="Form Title"
           />
         </div>
@@ -181,13 +181,13 @@ export default function BuilderPage() {
           <div className="hidden md:flex bg-purple-light p-1 rounded-lg">
             <button 
               onClick={() => setPreviewMode('desktop')}
-              className={`p-1.5 rounded-md transition-colors ${previewMode === 'desktop' ? 'bg-card-bg shadow-sm text-ink-dark' : 'text-text-secondary hover:text-text-secondary'}`}
+              className={`p-1.5 rounded-md transition-colors ${previewMode === 'desktop' ? 'bg-card-bg shadow-sm text-text-primary' : 'text-text-secondary hover:text-text-secondary'}`}
             >
               <Monitor className="w-4 h-4" />
             </button>
             <button 
               onClick={() => setPreviewMode('mobile')}
-              className={`p-1.5 rounded-md transition-colors ${previewMode === 'mobile' ? 'bg-card-bg shadow-sm text-ink-dark' : 'text-text-secondary hover:text-text-secondary'}`}
+              className={`p-1.5 rounded-md transition-colors ${previewMode === 'mobile' ? 'bg-card-bg shadow-sm text-text-primary' : 'text-text-secondary hover:text-text-secondary'}`}
             >
               <Smartphone className="w-4 h-4" />
             </button>
@@ -201,7 +201,7 @@ export default function BuilderPage() {
                 navigator.clipboard.writeText(`${window.location.origin}/form/${form.public_slug}`);
                 toast.success('Link copied to clipboard!');
               }}
-              className="text-sm font-medium text-text-secondary hover:text-ink-dark flex items-center gap-1.5 bg-purple-light px-3 py-2 rounded-lg transition-colors border border-border-soft"
+              className="text-sm font-medium text-text-secondary hover:text-text-primary flex items-center gap-1.5 bg-purple-light px-3 py-2 rounded-lg transition-colors border border-border-soft"
             >
               <Globe className="w-4 h-4" /> Share
             </button>
@@ -211,8 +211,8 @@ export default function BuilderPage() {
             disabled={saving}
             className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 shadow-sm ${
               form.status === 'published' 
-                ? 'bg-card-bg border border-border-soft text-text-secondary hover:bg-gray-50' 
-                : 'bg-ink-dark text-white hover:opacity-90'
+                ? 'bg-card-bg border border-border-soft text-text-secondary hover:bg-card-elevated' 
+                : 'bg-inverted-bg text-inverted-text hover:opacity-90'
             }`}
           >
             {form.status === 'published' ? 'Unpublish' : 'Publish'}

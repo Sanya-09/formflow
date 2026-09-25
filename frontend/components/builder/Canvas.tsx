@@ -66,7 +66,7 @@ function SortableQuestion({
       className={`relative mb-4 group transition-all cursor-pointer rounded-2xl ${
         isActive 
           ? 'bg-card-bg shadow-[0_0_0_2px_#6C4CF6] ring-4 ring-purple-light' 
-          : 'bg-card-bg border border-border-soft hover:border-gray-300 hover:shadow-md'
+          : 'bg-card-bg border border-border-soft hover:border-border-strong hover:shadow-md'
       } ${isDragging ? 'opacity-70 shadow-2xl scale-[1.02]' : ''}`}
       onClick={onSelect}
     >
@@ -96,7 +96,7 @@ function SortableQuestion({
                   <span className="text-[10px] uppercase font-bold tracking-wider text-red-500 bg-red-50 px-1.5 py-0.5 rounded">Required</span>
                 )}
               </div>
-              <h4 className={`text-lg font-medium leading-snug ${!question.title ? 'text-text-secondary/70 italic' : 'text-ink-dark'}`}>
+              <h4 className={`text-lg font-medium leading-snug ${!question.title ? 'text-text-secondary/70 italic' : 'text-text-primary'}`}>
                 {question.title || 'Type your question here...'}
               </h4>
               {question.description && (
@@ -155,7 +155,7 @@ export default function Canvas({
     <div className="absolute inset-0 overflow-y-auto px-4 py-8 sm:px-8">
       <div className="max-w-2xl mx-auto pb-32">
         <div className="mb-10 text-center">
-          <h2 className="text-3xl font-bold text-ink-dark mb-3">{form.title}</h2>
+          <h2 className="text-3xl font-bold text-text-primary mb-3">{form.title}</h2>
           {form.description && <p className="text-lg text-text-secondary">{form.description}</p>}
         </div>
 
@@ -164,7 +164,7 @@ export default function Canvas({
             <div className="w-16 h-16 bg-page-bg rounded-2xl flex items-center justify-center mx-auto mb-4">
               <Type className="w-8 h-8 text-text-secondary/70" />
             </div>
-            <h3 className="text-lg font-semibold text-ink-dark mb-2">Start building your form</h3>
+            <h3 className="text-lg font-semibold text-text-primary mb-2">Start building your form</h3>
             <p className="text-text-secondary max-w-sm mx-auto">Add your first question from the left sidebar to get started.</p>
           </div>
         ) : (
