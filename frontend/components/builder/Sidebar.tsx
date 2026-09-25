@@ -1,7 +1,7 @@
 'use client';
 
 import { 
-  Type, AlignLeft, List, CaretDown, 
+  Type, AlignLeft, List, ChevronDown, 
   Mail, Hash, ToggleLeft, Star 
 } from 'lucide-react';
 
@@ -9,7 +9,7 @@ const QUESTION_TYPES = [
   { id: 'short_text', label: 'Short Text', icon: Type },
   { id: 'long_text', label: 'Long Text', icon: AlignLeft },
   { id: 'multiple_choice', label: 'Multiple Choice', icon: List },
-  { id: 'dropdown', label: 'Dropdown', icon: CaretDown },
+  { id: 'dropdown', label: 'Dropdown', icon: ChevronDown },
   { id: 'email', label: 'Email', icon: Mail },
   { id: 'number', label: 'Number', icon: Hash },
   { id: 'yes_no', label: 'Yes/No', icon: ToggleLeft },

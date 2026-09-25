@@ -17,13 +17,13 @@ import {
 } from '@dnd-kit/sortable';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Trash2, GripVertical, Type, AlignLeft, List, CaretDown, Mail, Hash, ToggleLeft, Star } from 'lucide-react';
+import { Trash2, GripVertical, Type, AlignLeft, List, ChevronDown, Mail, Hash, ToggleLeft, Star } from 'lucide-react';
 
 const ICON_MAP: Record<string, any> = {
   short_text: Type,
   long_text: AlignLeft,
   multiple_choice: List,
-  dropdown: CaretDown,
+  dropdown: ChevronDown,
   email: Mail,
   number: Hash,
   yes_no: ToggleLeft,
